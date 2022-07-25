@@ -44,6 +44,7 @@ public class PurchaseDAO {
 			purchaseVO.setTranCode(rs.getString("TRAN_STATUS_CODE"));
 			purchaseVO.setOrderDate(rs.getDate("ORDER_DATA"));
 			purchaseVO.setDivyDate(rs.getDate("DLVY_DATE")+"");
+			purchaseVO.setAmount(rs.getInt("AMOUNT"));
 		}
 		DBUtil.close(con, psmt, rs);
 		return purchaseVO;
@@ -86,6 +87,7 @@ public class PurchaseDAO {
 				purchaseVO.setDivyRequest(rs.getString("DLVY_REQUEST"));
 				purchaseVO.setTranCode(rs.getString("TRAN_STATUS_CODE"));
 				purchaseVO.setDivyDate(rs.getDate("DLVY_DATE")+"");
+				purchaseVO.setAmount(rs.getInt("AMOUNT"));
 				
 				list.add(purchaseVO);
 				
@@ -110,7 +112,7 @@ public class PurchaseDAO {
 	public void insertPurchase(Purchase purchaseVO) throws Exception {
 		System.out.println("PurchaseDao insertPurchase(PurchaseVO purchaseVO) start...");
 		Connection conn = DBUtil.getConnection();
-		String sql = " INSERT INTO transaction VALUES (seq_transaction_tran_no.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, '1', sysdate, ?) ";
+		String sql = " INSERT INTO transaction VALUES (seq_transaction_tran_no.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, '1', sysdate, ?, ?) ";
 		PreparedStatement psmt = conn.prepareStatement(sql);
 		psmt.setInt(1, purchaseVO.getPurchaseProd().getProdNo());
 		psmt.setString(2, purchaseVO.getBuyer().getUserId());
@@ -120,6 +122,7 @@ public class PurchaseDAO {
 		psmt.setString(6, purchaseVO.getDivyAddr());
 		psmt.setString(7, purchaseVO.getDivyRequest());
 		psmt.setString(8, purchaseVO.getDivyDate());
+		psmt.setInt(9, purchaseVO.getAmount());
 		
 		int i = psmt.executeUpdate();
 		if(i==1) {
@@ -134,7 +137,7 @@ public class PurchaseDAO {
 		Connection con = DBUtil.getConnection();
 		
 		String sql = " UPDATE transaction SET payment_option=?, receiver_name=?, receiver_phone=? "
-				+ " , demailaddr=?, dlvy_request=?, dlvy_date=? WHERE tran_no=? ";
+				+ " , demailaddr=?, dlvy_request=?, dlvy_date=?, amount=? WHERE tran_no=? ";
 		PreparedStatement psmt = con.prepareStatement(sql);
 		psmt.setString(1, purchaseVO.getPaymentOption());
 		psmt.setString(2, purchaseVO.getReceiverName());
@@ -143,6 +146,7 @@ public class PurchaseDAO {
 		psmt.setString(5, purchaseVO.getDivyRequest());
 		psmt.setString(6, purchaseVO.getDivyDate());
 		psmt.setInt(7, purchaseVO.getTranNo());
+		psmt.setInt(8, purchaseVO.getAmount());
 		int i = psmt.executeUpdate();
 		
 		DBUtil.close(con, psmt);

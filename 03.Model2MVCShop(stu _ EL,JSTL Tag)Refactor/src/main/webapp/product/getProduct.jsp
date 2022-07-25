@@ -4,14 +4,22 @@
 <script type="text/javascript">
 function count(type) {
 	var resultNumber = document.getElementById('result');
+	var amountNumber = document.getElementById('amountNumber').value;
 	var number = resultNumber.innerText;
 	
 	if(type=='plus'){
-		number = parseInt(number) +1;
+		if(number<amountNumber){
+			number = parseInt(number) +1;
+		}else if(number==amountNumber){
+			document.getElementById('limit').innerText = '더이상 구매하실 수 없습니다';
+			return;
+		}
 	}else if(type=='minus'){
 		number = parseInt(number) -1;
 		if(number==0){
 			number = 1;
+		}else{
+			document.getElementById('limit').innerText = '';
 		}
 	}
 
@@ -136,10 +144,12 @@ function cartSubmit() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input type="button" value="-" onclick='count("minus")'>
-			<b id="result">${ productVO.amount }</b>
-			<input type="hidden" id="amount" name="amount" value="1">
-			<input type="hidden" name="prod_no" value="${ productVO.amount }">
+			<b id="result">1</b>
+			<input type="hidden" id="amount" name="amount" value="${ productVO.amount }">
+			<input type="hidden" id="amountNumber" name="amountNumber" value="${ productVO.amount }">
+			<input type="hidden" name="prod_no" value="${ productVO.prodNo }">
 			<input type="button" value="+" onclick='count("plus")'>
+			<b id="limit"></b>
 		</td>
 	</tr>
 	<tr>

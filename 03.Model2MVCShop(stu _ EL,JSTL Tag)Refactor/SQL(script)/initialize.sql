@@ -7,6 +7,8 @@ DROP TABLE Cart;
 
 ALTER TABLE product ADD amount NUMBER(20);
 UPDATE product SET amount = 4;
+ALTER TABLE transaction ADD amount NUMBER(20);
+UPDATE product SET amount = 7;
 
 
 DROP SEQUENCE seq_product_prod_no;
