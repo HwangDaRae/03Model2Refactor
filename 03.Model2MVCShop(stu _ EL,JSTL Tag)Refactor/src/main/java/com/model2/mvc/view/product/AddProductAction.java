@@ -23,16 +23,17 @@ public class AddProductAction extends Action {
 		productVO.setProdName(request.getParameter("prodName"));
 		productVO.setProdDetail(request.getParameter("prodDetail"));
 		productVO.setManuDate(request.getParameter("manuDate"));
+		productVO.setAmount(Integer.parseInt(request.getParameter("amount")));
 		productVO.setPrice(Integer.parseInt(request.getParameter("price")));
 		productVO.setFileName(request.getParameter("fileName"));
 		
 		ProductService service = new ProductServiceImpl();
 		productVO = service.addProduct(productVO);
-		System.out.println(productVO);
+		System.out.println("¿©±â´Â Action after : " + productVO);
 		
 		request.setAttribute("productVO", productVO);
 		
-		System.out.println("[AddProductAction execute() end...]");		
+		System.out.println("[AddProductAction execute() end...]");
 		return "forward:/product/addProduct.jsp";
 	}
 

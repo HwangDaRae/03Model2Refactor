@@ -21,13 +21,14 @@ public class ProductDAO {
 		System.out.println("ProductDAO insertProduct(ProductVO productVO) start...");
 		
 		Connection con = DBUtil.getConnection();
-		String sql = "INSERT INTO product VALUES (seq_product_prod_no.NEXTVAL,?,?,TO_CHAR(TO_DATE(?),'yyyymmdd'),?,?,sysdate)";
+		String sql = "INSERT INTO product VALUES (seq_product_prod_no.NEXTVAL,?,?,TO_CHAR(TO_DATE(?),'yyyymmdd'),?,?,sysdate,?)";
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		pstmt.setString(1, productVO.getProdName());
 		pstmt.setString(2, productVO.getProdDetail());
 		pstmt.setString(3, productVO.getManuDate());
 		pstmt.setInt(4, productVO.getPrice());
 		pstmt.setString(5, productVO.getFileName());
+		pstmt.setInt(6, productVO.getAmount());
 		int i = pstmt.executeUpdate();
 		
 		DBUtil.close(con, pstmt);

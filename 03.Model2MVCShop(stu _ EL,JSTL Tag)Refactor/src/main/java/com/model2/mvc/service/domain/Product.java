@@ -4,13 +4,14 @@ import java.sql.Date;
 
 /*
 CREATE TABLE product ( 
-	prod_no 				NUMBER 			NOT NULL,
-	prod_name 				VARCHAR2(100) 	NOT NULL,
-	prod_detail 			VARCHAR2(200),
-	manufacture_day			VARCHAR2(8),
-	price 					NUMBER(10),
-	image_file 				VARCHAR2(100),
-	reg_date 				DATE,
+	prod_no 			NUMBER 			NOT NULL,
+	prod_name 			VARCHAR2(100) 	NOT NULL,
+	prod_detail 		VARCHAR2(200),
+	manufacture_day		VARCHAR2(8),
+	price 				NUMBER(10),
+	image_file 			VARCHAR2(100),
+	reg_date 			DATE,
+	amount				NUMBER(10),
 	PRIMARY KEY(prod_no)
 );
 */
@@ -24,6 +25,7 @@ public class Product {
 	private int price;
 	private String fileName;
 	private Date regDate;
+	private int amount;
 	private String proTranCode;
 
 	public Product() {
@@ -98,6 +100,14 @@ public class Product {
 		this.regDate = regDate;
 	}
 
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
 	public String getProTranCode() {
 		return proTranCode;
 	}
@@ -108,8 +118,9 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "ProductVO [prodNo=" + prodNo + ", prodName=" + prodName + ", prodDetail=" + prodDetail + ", manuDate="
-				+ manuDate + ", price=" + price + ", fileName=" + fileName + ", regDate=" + regDate + ", proTranCode="
-				+ proTranCode + "]";
+		return "Product [prodNo=" + prodNo + ", prodName=" + prodName + ", prodDetail=" + prodDetail + ", manuDate="
+				+ manuDate + ", price=" + price + ", fileName=" + fileName + ", regDate=" + regDate + ", amount="
+				+ amount + ", proTranCode=" + proTranCode + "]";
 	}
+	
 }

@@ -1,10 +1,6 @@
 <%@page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%--
-Product productVO = (Product)request.getAttribute("productVO");
---%>
-
 <html>
 <head>
 <meta charset="EUC-KR">
@@ -47,7 +43,7 @@ Product productVO = (Product)request.getAttribute("productVO");
 		<td class="ct_write01">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105">${ productVO.prodName }<%--=productVO.getProdName() --%></td>
+					<td width="105">${ productVO.prodName }</td>
 					<td></td>
 				</tr>
 			</table>
@@ -62,7 +58,7 @@ Product productVO = (Product)request.getAttribute("productVO");
 			상품상세정보 <img  src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ productVO.prodDetail }<%--=productVO.getProdDetail() --%></td>
+		<td class="ct_write01">${ productVO.prodDetail }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -73,8 +69,19 @@ Product productVO = (Product)request.getAttribute("productVO");
 			제조일자<img	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ productVO.manuDate }<%--=productVO.getManuDate() --%></td>
+		<td class="ct_write01">${ productVO.manuDate }</td>
 	</tr>
+	<tr>
+		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+	</tr>
+	<tr>
+		<td width="104" class="ct_write">
+			수량<img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+		</td>
+		<td bgcolor="D6D6D6" width="1"></td>
+		<td class="ct_write01">${ productVO.amount }</td>
+	</tr>
+
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
@@ -83,7 +90,7 @@ Product productVO = (Product)request.getAttribute("productVO");
 			가격<img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ productVO.price }<%--=productVO.getPrice() --%></td>
+		<td class="ct_write01">${ productVO.price }원</td>
 	</tr>
 
 	<tr>

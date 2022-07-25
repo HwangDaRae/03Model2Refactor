@@ -5,6 +5,10 @@ DROP TABLE users;
 DROP TABLE Cart;
 
 
+ALTER TABLE product ADD amount NUMBER(20);
+UPDATE product SET amount = 4;
+
+
 DROP SEQUENCE seq_product_prod_no;
 DROP SEQUENCE seq_transaction_tran_no;
 
