@@ -1,10 +1,5 @@
-<%@page import="com.model2.mvc.service.domain.Product"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-Product productVO = (Product)request.getAttribute("productVO");
-System.out.println("여기는 updateProductView : " + productVO.toString());
---%>
 <html>
 <head>
 <title>회원정보수정</title>
@@ -15,13 +10,19 @@ System.out.println("여기는 updateProductView : " + productVO.toString());
 </script>
 
 <script type="text/javascript">
-<!--
+
 function fncAddProduct(){
 	//Form 유효성 검증
  	var name = document.detailForm.prodName.value;
 	var detail = document.detailForm.prodDetail.value;
 	var manuDate = document.detailForm.manuDate.value;
+	var amount = document.detailForm.amount.value;
 	var price = document.detailForm.price.value;
+	alert(name);
+	alert(detail);
+	alert(manuDate);
+	alert(amount);
+	alert(price);
 
 	if(name == null || name.length<1){
 		alert("상품명은 반드시 입력하여야 합니다.");
@@ -35,6 +36,10 @@ function fncAddProduct(){
 		alert("제조일자는 반드시 입력하셔야 합니다.");
 		return;
 	}
+	if(amount == null || amount.length<1){
+		alert("수량은 반드시 입력하셔야 합니다.");
+		return;
+	}
 	if(price == null || price.length<1){
 		alert("가격은 반드시 입력하셔야 합니다.");
 		return;
@@ -43,7 +48,7 @@ function fncAddProduct(){
 	document.detailForm.action='/updateProduct.do';
 	document.detailForm.submit();
 }
--->
+
 </script>
 </head>
 
@@ -86,7 +91,7 @@ function fncAddProduct(){
 				<tr>
 					<td width="105">
 						<input 	type="text" name="prodName" disabled="disabled" class="ct_input_g" 
-										style="width: 100px; height: 19px" maxLength="20" value="${ productVO.prodName }<%--=productVO.getProdName() --%>">
+										style="width: 100px; height: 19px" maxLength="20" value="${ productVO.prodName }">
 					</td>
 				</tr>
 			</table>
@@ -101,7 +106,7 @@ function fncAddProduct(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="prodDetail" value="${ productVO.prodDetail }<%--=productVO.getProdDetail() --%>" class="ct_input_g" 
+			<input type="text" name="prodDetail" value="${ productVO.prodDetail }" class="ct_input_g" 
 						style="width: 100px; height: 19px" maxLength="10"	minLength="6">
 		</td>
 	</tr>
@@ -114,10 +119,23 @@ function fncAddProduct(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" readonly="readonly" name="manuDate" value="${ productVO.manuDate }<%--=productVO.getManuDate() --%>" 
+			<input type="text" readonly="readonly" name="manuDate" value="${ productVO.manuDate }" 
 						class="ct_input_g" style="width: 100px; height: 19px" maxLength="10" minLength="6">&nbsp;
 						<img 	src="../images/ct_icon_date.gif" width="15" height="15" 
 									onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)" />
+		</td>
+	</tr>
+	<tr>
+		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+	</tr>
+	<tr>
+		<td width="104" class="ct_write">
+			수량 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+		</td>
+		<td bgcolor="D6D6D6" width="1"></td>
+		<td class="ct_write01">
+			<input type="text" name="amount" value="${ productVO.amount }"
+						class="ct_input_g" style="width: 100px; height: 19px" maxLength="50"/>&nbsp;개
 		</td>
 	</tr>
 	<tr>
@@ -129,7 +147,7 @@ function fncAddProduct(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="price" value="${ productVO.price }<%--=productVO.getPrice() --%>"
+			<input type="text" name="price" value="${ productVO.price }"
 						class="ct_input_g" style="width: 100px; height: 19px" maxLength="50"/>&nbsp;원
 		</td>
 	</tr>

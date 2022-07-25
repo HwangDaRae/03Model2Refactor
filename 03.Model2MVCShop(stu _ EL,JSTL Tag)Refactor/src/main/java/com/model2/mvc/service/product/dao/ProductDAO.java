@@ -58,6 +58,7 @@ public class ProductDAO {
 			productVO.setPrice(rs.getInt("PRICE"));
 			productVO.setFileName(rs.getString("IMAGE_FILE"));
 			productVO.setRegDate(rs.getDate("REG_DATE"));
+			productVO.setAmount(rs.getInt("AMOUNT"));
 			productVO.setProTranCode(rs.getString("TSC"));
 		}
 		
@@ -133,13 +134,14 @@ public class ProductDAO {
 		System.out.println("수정할 상품 정보 : "+productVO.toString());
 		
 		Connection con = DBUtil.getConnection();
-		String sql = "UPDATE PRODUCT set PROD_DETAIL=?,MANUFACTURE_DAY=TO_CHAR(TO_DATE(?),'YYYYMMDD'),PRICE=? where PROD_NO=?";
+		String sql = "UPDATE PRODUCT set PROD_DETAIL=?,MANUFACTURE_DAY=TO_CHAR(TO_DATE(?),'YYYYMMDD'),PRICE=?,AMOUNT=? where PROD_NO=?";
 		PreparedStatement pstmt;
 		pstmt = con.prepareStatement(sql);
 		pstmt.setString(1, productVO.getProdDetail());
 		pstmt.setString(2, productVO.getManuDate());
 		pstmt.setInt(3, productVO.getPrice());
-		pstmt.setInt(4, productVO.getProdNo());
+		pstmt.setInt(4, productVO.getAmount());
+		pstmt.setInt(5, productVO.getProdNo());
 		int i = pstmt.executeUpdate();
 		
 		DBUtil.close(con, pstmt);		

@@ -136,9 +136,9 @@ function cartSubmit() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input type="button" value="-" onclick='count("minus")'>
-			<b id="result">1</b>
+			<b id="result">${ productVO.amount }</b>
 			<input type="hidden" id="amount" name="amount" value="1">
-			<input type="hidden" name="prod_no" value="${ productVO.prodNo }">
+			<input type="hidden" name="prod_no" value="${ productVO.amount }">
 			<input type="button" value="+" onclick='count("plus")'>
 		</td>
 	</tr>
