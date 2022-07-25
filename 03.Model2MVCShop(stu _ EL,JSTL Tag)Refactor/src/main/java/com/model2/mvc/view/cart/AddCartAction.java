@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.model2.mvc.common.Search;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.cart.CartService;
 import com.model2.mvc.service.cart.impl.CartServiceImpl;
@@ -41,7 +42,7 @@ public class AddCartAction extends Action {
 		
 		System.out.println("AddCartAction cart : " + cart.toString());
 		
-		// 장바구니에 담고 장바구니를 list에 담아 출력
+		// 장바구니에 담고 장바구니를 list에 담아 출력.
 		CartService service = new CartServiceImpl();
 		service.insertCart(cart);
 		map = service.getCartList( ( (User)request.getSession(true).getAttribute("user") ).getUserId() );

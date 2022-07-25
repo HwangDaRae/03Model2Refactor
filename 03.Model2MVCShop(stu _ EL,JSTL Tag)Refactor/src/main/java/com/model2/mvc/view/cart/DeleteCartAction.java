@@ -41,6 +41,7 @@ public class DeleteCartAction extends Action {
 		request.setAttribute("list", map.get("list"));
 		//count : 게시물 수, listCart.jsp에서 count>0일때 for문으로 list출력
 		request.setAttribute("count", map.get("count"));
+		//request.setAttribute("prod_amount", productVO.getAmount());
 		
 		System.out.println("[DeleteCartAction execute() end...]");
 		return "forward:/cart/listCart.jsp";

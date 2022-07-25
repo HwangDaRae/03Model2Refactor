@@ -14,26 +14,27 @@ function btnClick() {
 }
 
 function count(type) {
-	var resultNumber = document.getElementById('result');
-	var number = resultNumber.innerText;
+	var number = document.getElementById('result').innerText;
+	var amountNumber = document.getElementById('amountNumber').value;
 	
 	if(type=='plus'){
-		number = parseInt(number) +1;
-		alert('plus : ' + number);
+		if(number < amountNumber){
+			number = parseInt(number) +1;
+		}else if(number == amountNumber){
+			document.getElementById('limit').innerText = '더이상 구매하실 수 없습니다';
+		}
 	}else if(type=='minus'){
-		number = parseInt(number) -1;
 		if(number==0){
 			number = 1;
+		}else if(number!=0){
+			number = parseInt(number) -1;
 		}
-		alert('minus : ' + number);
 	}
 
-	document.getElementById('amount').innerText = number;
 	var price = document.getElementById('price').innerText;
 	document.getElementById('totalPrice').innerText = parseInt(number) * parseInt(price);
-	alert(parseInt(number) * parseInt(price));
-
-	resultNumber.innerText = number;
+	document.getElementById('result').innerText = number;
+	document.getElementById('amount').value = number;
 }
 
 </script>
@@ -99,12 +100,15 @@ function count(type) {
 								<td align="left">
 									<input type="button" value="-" class="btn_minus" onclick='count("minus")'>
 									<b id="result">${ list[i].amount }</b>
+									<input type="text" id="amount" name="amount" value="${ list[i].amount }">
+									<input type="text" id="amountNumber" name="amountNumber" value="${ mapList[i].amount }">
 									<input type="button" value="+" class="btn_plus" onclick='count("plus")'>
+									<b id="limit"></b>
 								</td>
 								<td></td>
 								<td align="left">
 								<b id="price">${ list[i].price }</b>원 * 
-								<b id="amount">${ list[i].amount }</b>개 = 
+								<b>${ list[i].amount }</b>개 = 
 								<b id="totalPrice">${ list[i].price * list[i].amount }</b>원
 								</td>
 							</tr>
