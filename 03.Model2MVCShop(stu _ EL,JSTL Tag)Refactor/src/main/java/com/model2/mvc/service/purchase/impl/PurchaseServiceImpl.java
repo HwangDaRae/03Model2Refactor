@@ -3,6 +3,7 @@ package com.model2.mvc.service.purchase.impl;
 import java.util.Map;
 
 import com.model2.mvc.common.Search;
+import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.purchase.dao.PurchaseDAO;
@@ -17,9 +18,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public Purchase addPurchase(Purchase purchaseVO) throws Exception {
+	public Purchase addPurchase(Purchase purchaseVO, Product productVO) throws Exception {
 		System.out.println("PurchaseServiceImpl addPurchase(PurchaseVO purchaseVO) start...");
-		purchaseDAO.insertPurchase(purchaseVO);
+		purchaseDAO.insertPurchase(purchaseVO, productVO);
 		return purchaseVO;		
 	}
 

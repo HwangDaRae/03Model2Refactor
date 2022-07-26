@@ -76,7 +76,7 @@
 			<td></td>
 			<td align="left">
 			
-			<c:if test="${ fn:trim(list[i].tranCode) == '1' }">
+			<c:if test="${ fn:trim(list[i].tranCode) != '2' && fn:trim(list[i].tranCode) != '3' }">
 				현재 구매완료 상태 입니다.
 			</c:if>
 			<c:if test="${ fn:trim(list[i].tranCode) == '2' }">

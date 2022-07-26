@@ -160,10 +160,10 @@ function fncGetSortList(priceSort) {
 				<td align="center">${ size-i }</td>
 				<td></td>
 					<td align="left">
-						<c:if test="${ list[i].proTranCode == '0' }">
+						<c:if test="${ fn:trim(list[i].proTranCode) == '0' }">
 							<a href="/getProduct.do?prodNo=${ list[i].prodNo }&menu=${ menu }">${ list[i].prodName }</a>
 						</c:if>
-						<c:if test="${ list[i].proTranCode != '0' }">
+						<c:if test="${ fn:trim(list[i].proTranCode) != '0' }">
 							${ list[i].prodName }
 						</c:if>
 					</td>

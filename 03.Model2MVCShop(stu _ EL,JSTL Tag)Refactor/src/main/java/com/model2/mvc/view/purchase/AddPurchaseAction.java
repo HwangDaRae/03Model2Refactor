@@ -44,15 +44,14 @@ public class AddPurchaseAction extends Action {
 		purchaseVO.setBuyer(userVO);
 		
 		//purchaseVO.setTranCode(); //amount가 0이면 tran_code=1 amount가 0이 아니면 tran_code=0
-		
-		//가져온상품과 구매정보를 PurchaseVO에 넣는다
-		PurchaseService service = new PurchaseServiceImpl();
-		purchaseVO = service.addPurchase(purchaseVO);
-		System.out.println("purchaseVO.toString() : " + purchaseVO.toString());
-		
 		// 상품 수량 - 구매한 수량
 		productVO.setAmount( productVO.getAmount() - Integer.parseInt(request.getParameter("amount")) );
 		pService.updateProduct(productVO);
+		
+		//가져온상품과 구매정보를 PurchaseVO에 넣는다
+		PurchaseService service = new PurchaseServiceImpl();
+		purchaseVO = service.addPurchase(purchaseVO, productVO);
+		System.out.println("purchaseVO.toString() : " + purchaseVO.toString());
 		
 		request.setAttribute("purchaseVO", purchaseVO);
 		

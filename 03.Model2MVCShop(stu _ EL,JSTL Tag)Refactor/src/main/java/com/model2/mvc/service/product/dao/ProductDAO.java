@@ -73,9 +73,12 @@ public class ProductDAO {
 		Connection con = DBUtil.getConnection();
 		
 		//original sql
-		String sql = " select p.prod_no, p.prod_name, p.price, p.reg_date, nvl(tran_status_code, 0) as tcode "
-				+ " from transaction t, product p "
-				+ " where t.prod_no(+)=p.prod_no ";
+		String sql = " select vt.* "
+				+ " from ( select ROW_NUMBER() OVER(PARTITION BY p.prod_no ORDER BY t.order_data desc) as r "
+				+ " , p.amount, p.prod_no, p.prod_name, p.price, p.reg_date, nvl(tran_status_code, 0) as tcode "
+				+ "	from transaction t, product p "
+				+ "	where t.prod_no(+)=p.prod_no ) vt "
+				+ " where r = 1 ";
 		if(searchVO.getSearchCondition() != null && !searchVO.getSearchKeyword().trim().equals("")) {
 			if(searchVO.getSearchCondition().equals("0")) {
 				sql += " AND p.PROD_NO=" + searchVO.getSearchKeyword();
@@ -168,9 +171,9 @@ public class ProductDAO {
 	//currentPage의 레코드만 가져온다
 	public String makeGetCurrentSql(String sql, Search search) throws Exception {
 		String currentSql = " SELECT * "
-							+ "	FROM ( SELECT ROWNUM r, vt1.* "
+							+ "	FROM ( SELECT ROWNUM AS row_n, vt1.* "
 							+ 		 " FROM ("+sql+") vt1 ) vt2 "
-							+ " WHERE r BETWEEN "+((search.getCurruntPage()-1)*search.getPageSize()+1)+" AND "+search.getCurruntPage()*search.getPageSize();
+							+ " WHERE row_n BETWEEN "+((search.getCurruntPage()-1)*search.getPageSize()+1)+" AND "+search.getCurruntPage()*search.getPageSize();
 		return currentSql;
 	}
 

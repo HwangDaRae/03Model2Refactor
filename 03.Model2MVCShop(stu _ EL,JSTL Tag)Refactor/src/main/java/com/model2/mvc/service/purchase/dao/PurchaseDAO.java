@@ -109,10 +109,18 @@ public class PurchaseDAO {
 		return null;
 	}
 	
-	public void insertPurchase(Purchase purchaseVO) throws Exception {
+	public void insertPurchase(Purchase purchaseVO, Product productVO) throws Exception {
 		System.out.println("PurchaseDao insertPurchase(PurchaseVO purchaseVO) start...");
 		Connection conn = DBUtil.getConnection();
-		String sql = " INSERT INTO transaction VALUES (seq_transaction_tran_no.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, '1', sysdate, ?, ?) ";
+		String sql = " INSERT INTO transaction VALUES (seq_transaction_tran_no.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ";
+				if(productVO.getAmount() == 0) {
+					sql += " '1' ";
+				}else {
+					sql += " '0' ";
+				}
+				sql += ", sysdate, ?, ?) ";
+		System.out.println("insertPurchase : " + sql);
+				
 		PreparedStatement psmt = conn.prepareStatement(sql);
 		psmt.setInt(1, purchaseVO.getPurchaseProd().getProdNo());
 		psmt.setString(2, purchaseVO.getBuyer().getUserId());
@@ -145,8 +153,8 @@ public class PurchaseDAO {
 		psmt.setString(4, purchaseVO.getDivyAddr());
 		psmt.setString(5, purchaseVO.getDivyRequest());
 		psmt.setString(6, purchaseVO.getDivyDate());
-		psmt.setInt(7, purchaseVO.getTranNo());
-		psmt.setInt(8, purchaseVO.getAmount());
+		psmt.setInt(7, purchaseVO.getAmount());
+		psmt.setInt(8, purchaseVO.getTranNo());
 		int i = psmt.executeUpdate();
 		
 		DBUtil.close(con, psmt);

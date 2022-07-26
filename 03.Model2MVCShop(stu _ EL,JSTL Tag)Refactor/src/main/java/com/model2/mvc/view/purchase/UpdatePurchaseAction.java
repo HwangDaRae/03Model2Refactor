@@ -25,6 +25,7 @@ public class UpdatePurchaseAction extends Action {
 		String receiverAddr = request.getParameter("receiverAddr");
 		String receiverRequest = request.getParameter("receiverRequest");
 		String divyDate = request.getParameter("divyDate");
+		int amount = Integer.parseInt(request.getParameter("amount"));
 		
 		Purchase purchaseVO = new Purchase();
 		purchaseVO.setTranNo(tranNo);
@@ -34,6 +35,7 @@ public class UpdatePurchaseAction extends Action {
 		purchaseVO.setDivyAddr(receiverAddr);
 		purchaseVO.setDivyRequest(receiverRequest);
 		purchaseVO.setDivyDate(divyDate);
+		purchaseVO.setAmount(amount);
 		
 		System.out.println("UpdatePurchaseAction : " + purchaseVO);
 		

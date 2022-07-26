@@ -8,7 +8,6 @@
 
 <script type="text/javascript">
 function selectAll(selectAll){
-	alert('a');
 	var checkboxs = document.getElementsByName('deleteCheckBox');
 	alert(checkboxs);
 	
@@ -16,7 +15,7 @@ function selectAll(selectAll){
 	)
 }
 
-function count(type) {
+function count(type, i) {
 	var number = document.getElementById('result').innerText;
 	var handleAmount = document.getElementById('handleAmount').value;
 	
@@ -108,11 +107,11 @@ function deleteBtnClick(){
 								<td align="left">${ list[i].prod_name }</td>
 								<td></td>
 								<td align="left">
-									<input type="button" value="-" class="btn_minus" onclick='count("minus")'>
+									<input type="button" value="-" class="btn_minus" onclick='count("minus, ${ i }")'>
 									<b id="result">${ list[i].amount }</b>
 									<input type="text" id="amount" name="amount" value="${ list[i].amount }">
 									<input type="text" id="handleAmount" name="handleAmount" value="${ mapList[i].amount }">
-									<input type="button" value="+" class="btn_plus" onclick='count("plus")'>
+									<input type="button" value="+" class="btn_plus" onclick='count("plus, ${ i }")'>
 									<b id="limit"></b>
 								</td>
 								<td></td>
