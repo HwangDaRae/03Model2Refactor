@@ -51,6 +51,11 @@
 		<td>${ purchaseVO.divyDate }</td>
 		<td></td>
 	</tr>
+	<tr>
+		<td>¼ö·®</td>
+		<td>${ purchaseVO.amount }</td>
+		<td></td>
+	</tr>
 </table>
 </form>
 

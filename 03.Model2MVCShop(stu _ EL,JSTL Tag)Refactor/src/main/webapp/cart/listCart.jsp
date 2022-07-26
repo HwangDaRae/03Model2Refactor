@@ -7,20 +7,23 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <script type="text/javascript">
-function btnClick() {
-	if(confirm('정말 삭제하시겠습니까?')){
-		document.detailForm.submit();
-	}
+function selectAll(selectAll){
+	alert('a');
+	var checkboxs = document.getElementsByName('deleteCheckBox');
+	alert(checkboxs);
+	
+	checkboxs.forEach( (checkbox) => {checkbox.checked = selectAll.checked}
+	)
 }
 
 function count(type) {
 	var number = document.getElementById('result').innerText;
-	var amountNumber = document.getElementById('amountNumber').value;
+	var handleAmount = document.getElementById('handleAmount').value;
 	
 	if(type=='plus'){
-		if(number < amountNumber){
+		if(number < handleAmount){
 			number = parseInt(number) +1;
-		}else if(number == amountNumber){
+		}else if(number == handleAmount){
 			document.getElementById('limit').innerText = '더이상 구매하실 수 없습니다';
 		}
 	}else if(type=='minus'){
@@ -37,6 +40,11 @@ function count(type) {
 	document.getElementById('amount').value = number;
 }
 
+function deleteBtnClick(){
+	if(confirm('정말 삭제하시겠습니까?')){
+		document.detailForm.submit();
+	}
+}
 </script>
 
 <html>
@@ -67,8 +75,10 @@ function count(type) {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
 				<tr>
 					<td colspan="11">
-						<a href=""><br>전체 선택 개수/${ count }</a>
-						<input type="button" value="선택 삭제" onclick="btnClick()">
+						<a href="">
+							<input type="checkbox" name="deleteCheckBox" value="selectAll" onclick='selectAll(this)'>전체선택&nbsp;&nbsp;
+							개수/${ count }</a>&nbsp;&nbsp;
+						<input type="button" value="선택 삭제" onclick='deleteBtnClick()'>
 					</td>
 				</tr>
 				<tr>
@@ -101,7 +111,7 @@ function count(type) {
 									<input type="button" value="-" class="btn_minus" onclick='count("minus")'>
 									<b id="result">${ list[i].amount }</b>
 									<input type="text" id="amount" name="amount" value="${ list[i].amount }">
-									<input type="text" id="amountNumber" name="amountNumber" value="${ mapList[i].amount }">
+									<input type="text" id="handleAmount" name="handleAmount" value="${ mapList[i].amount }">
 									<input type="button" value="+" class="btn_plus" onclick='count("plus")'>
 									<b id="limit"></b>
 								</td>

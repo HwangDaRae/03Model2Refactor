@@ -31,8 +31,7 @@ public class AddPurchaseAction extends Action {
 		purchaseVO.setDivyAddr(request.getParameter("receiverAddr")); //구매자주소
 		purchaseVO.setDivyRequest(request.getParameter("receiverRequest")); //구매자요청사항
 		purchaseVO.setDivyDate(request.getParameter("receiverDate")); //배송희망일자
-		
-		System.out.println("구매방법 확인 : " +request.getParameter("paymentOption"));
+		purchaseVO.setAmount(Integer.parseInt(request.getParameter("amount"))); //수량
 		
 		//상품번호로 상품을 가져온다
 		ProductService pService = new ProductServiceImpl();
@@ -44,12 +43,16 @@ public class AddPurchaseAction extends Action {
 		User userVO = uService.getUser(request.getParameter("buyerId"));
 		purchaseVO.setBuyer(userVO);
 		
+		//purchaseVO.setTranCode(); //amount가 0이면 tran_code=1 amount가 0이 아니면 tran_code=0
+		
 		//가져온상품과 구매정보를 PurchaseVO에 넣는다
 		PurchaseService service = new PurchaseServiceImpl();
 		purchaseVO = service.addPurchase(purchaseVO);
 		System.out.println("purchaseVO.toString() : " + purchaseVO.toString());
 		
-		//구매하기 성공하면 판매중을 판매중을 재고없음으로 변경?
+		// 상품 수량 - 구매한 수량
+		productVO.setAmount( productVO.getAmount() - Integer.parseInt(request.getParameter("amount")) );
+		pService.updateProduct(productVO);
 		
 		request.setAttribute("purchaseVO", purchaseVO);
 		
