@@ -7,15 +7,25 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <script type="text/javascript">
-function selectAll(selectAll){
-	var checkboxs = document.getElementsByName('deleteCheckBox');
-	alert(checkboxs);
-	
-	checkboxs.forEach( (checkbox) => {checkbox.checked = selectAll.checked}
-	)
+//전체선택 체크박스 클릭시 모든 체크박스 선택됨
+function selectAll(){
+	var arrayCheckBox = document.getElementsByName("deleteCheckBox");
+	if(document.getElementById("allDeleteCheckBox").checked == true){
+	    for(var i=0;i<arrayCheckBox.length;i++) {
+	    	document.getElementsByName("deleteCheckBox")[i].checked = true;
+	    	document.getElementById('checkCount').innerText = 4;
+	    }
+	}else{
+	    for(var i=0;i<arrayCheckBox.length;i++) {
+	    	document.getElementsByName("deleteCheckBox")[i].checked = false;
+	    	document.getElementById('checkCount').innerText = 0;
+	    }
+	}
 }
 
+//수량변경
 function count(type, i) {
+	alert(type);
 	var number = document.getElementById('result').innerText;
 	var handleAmount = document.getElementById('handleAmount').value;
 	
@@ -39,11 +49,30 @@ function count(type, i) {
 	document.getElementById('amount').value = number;
 }
 
+//체크된 상품개수
+function ischecked(){
+	var ischecked = document.getElementById('deleteCheckBox').checked;
+	var checkCount = document.getElementById('checkCount').innerText;
+	
+	if(ischecked){
+		checkCount++;
+		if(checkCount==4){
+			document.getElementById('allDeleteCheckBox').checked = true;
+		}
+	}else if(!ischecked){
+		checkCount--;
+		document.getElementById('allDeleteCheckBox').checked = false;
+	}
+	
+	document.getElementById('checkCount').innerText = checkCount;
+}
+/*
 function deleteBtnClick(){
 	if(confirm('정말 삭제하시겠습니까?')){
 		document.detailForm.submit();
 	}
 }
+*/
 </script>
 
 <html>
@@ -75,9 +104,9 @@ function deleteBtnClick(){
 				<tr>
 					<td colspan="11">
 						<a href="">
-							<input type="checkbox" name="deleteCheckBox" value="selectAll" onclick='selectAll(this)'>전체선택&nbsp;&nbsp;
-							개수/${ count }</a>&nbsp;&nbsp;
-						<input type="button" value="선택 삭제" onclick='deleteBtnClick()'>
+							<input type="checkbox" id="allDeleteCheckBox" name="allDeleteCheckBox" value="selectAll" onclick='selectAll()'>전체선택&nbsp;&nbsp;
+							<b id="checkCount">0</b>&nbsp;/&nbsp;${ count }</a>&nbsp;&nbsp;
+						<input type="button" value="선택 삭제" id="allCheckBox" onclick='deleteBtnClick()'>
 					</td>
 				</tr>
 				<tr>
@@ -100,7 +129,7 @@ function deleteBtnClick(){
 						<c:forEach var="i" begin="0" end="${ size-1 }" step="1">
 							<tr class="ct_list_pop">
 								<td align="center">
-								<input type="checkbox" name="deleteCheckBox" value="${ list[i].prod_no }"></td>
+								<input type="checkbox" onclick="ischecked()" id="deleteCheckBox" name="deleteCheckBox" value="${ list[i].prod_no }"></td>
 								<td></td>
 								<td align="left"><img src="/images/uploadFiles/${ list[i].image }"/></td>
 								<td></td>
@@ -110,7 +139,7 @@ function deleteBtnClick(){
 									<input type="button" value="-" class="btn_minus" onclick='count("minus, ${ i }")'>
 									<b id="result">${ list[i].amount }</b>
 									<input type="text" id="amount" name="amount" value="${ list[i].amount }">
-									<input type="text" id="handleAmount" name="handleAmount" value="${ mapList[i].amount }">
+									<input type="text" id="handleAmount" name="handleAmount" value="${ prod_amount }">
 									<input type="button" value="+" class="btn_plus" onclick='count("plus, ${ i }")'>
 									<b id="limit"></b>
 								</td>

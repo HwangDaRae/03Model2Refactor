@@ -1,5 +1,6 @@
 package com.model2.mvc.view.cart;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,10 +43,32 @@ public class AddCartAction extends Action {
 		
 		System.out.println("AddCartAction cart : " + cart.toString());
 		
-		// 장바구니에 담고 장바구니를 list에 담아 출력.
+		// 같은 상품이 있는지 비교하는 리스트
 		CartService service = new CartServiceImpl();
-		service.insertCart(cart);
 		map = service.getCartList( ( (User)request.getSession(true).getAttribute("user") ).getUserId() );
+		
+		//장바구니 전부를 가져와서 상품번호가 같다면 수량추가
+		boolean isProdNo = false;
+		ArrayList<Cart> p_list = (ArrayList<Cart>)map.get("list");
+		for (int i = 0; i < p_list.size(); i++) {
+			System.out.println(p_list.get(i).getProd_no());
+			System.out.println(Integer.parseInt(request.getParameter("prod_no")));
+			if(p_list.get(i).getProd_no() == Integer.parseInt(request.getParameter("prod_no"))){
+				isProdNo = true;
+				//수량 업데이트
+				cart.setAmount(p_list.get(i).getAmount() + Integer.parseInt(request.getParameter("amount")));
+				service.updateAmount(cart);
+				System.out.println(cart.toString());
+			}
+		}
+		
+		if(!isProdNo) {
+			service.insertCart(cart);
+			map = service.getCartList( ( (User)request.getSession(true).getAttribute("user") ).getUserId() );
+		}else {
+			//여기가 없으면 수량 업데이트 되기전 리스트 가져간다. 수량 업데이트 된 리스트 가져온다
+			map = service.getCartList( ( (User)request.getSession(true).getAttribute("user") ).getUserId() );
+		}
 		
 		request.setAttribute("list", map.get("list"));
 		request.setAttribute("count", map.get("count"));

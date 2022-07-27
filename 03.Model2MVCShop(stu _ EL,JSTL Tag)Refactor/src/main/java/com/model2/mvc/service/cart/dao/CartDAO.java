@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.model2.mvc.common.util.DBUtil;
 import com.model2.mvc.service.domain.Cart;
+import com.model2.mvc.service.domain.Product;
 
 /*
 	product_no		NUMBER(20)	NOT NULL REFERENCES product(prod_no),
@@ -154,6 +155,24 @@ public class CartDAO {
 		DBUtil.close(con, psmt);
 		System.out.println("CartDAO updateAmount(Cart cart) end...");
 	}//end of updateAmount(Cart cart)
+	
+	// 장바구니 상품 재고수량 가져오기
+	public Map<String, Object> getProdNoList() throws Exception {
+		Connection con = DBUtil.getConnection();
+		String sql = " SELECT amount FROM product WHERE prod_no=? ";
+		PreparedStatement psmt = con.prepareStatement(sql);
+		ResultSet rs = psmt.executeQuery();		
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<Product> list = new ArrayList<Product>();
+		while(rs.next()) {
+			Product p = new Product();
+			p.setAmount(rs.getInt(1));
+			list.add(p);
+		}
+		map.put("list", list);
+		return map;
+	}
 
 }
 
