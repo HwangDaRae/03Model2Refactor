@@ -17,6 +17,7 @@ public class Cart {
 	private String prod_detail;
 	private int amount;
 	private int price;
+	private int prod_amount;
 	
 	public Cart() {
 	}
@@ -77,10 +78,19 @@ public class Cart {
 		this.price = price;
 	}
 
+	public int getProd_amount() {
+		return prod_amount;
+	}
+
+	public void setProd_amount(int prod_amount) {
+		this.prod_amount = prod_amount;
+	}
+
 	@Override
 	public String toString() {
 		return "Cart [prod_no=" + prod_no + ", user_id=" + user_id + ", image=" + image + ", prod_name=" + prod_name
-				+ ", prod_detail=" + prod_detail + ", amount=" + amount + ", price=" + price + "]";
+				+ ", prod_detail=" + prod_detail + ", amount=" + amount + ", price=" + price + ", prod_amount="
+				+ prod_amount + "]";
 	}
 
 }

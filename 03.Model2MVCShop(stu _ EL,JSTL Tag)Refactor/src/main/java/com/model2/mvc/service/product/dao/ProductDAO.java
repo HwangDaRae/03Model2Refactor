@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import com.model2.mvc.common.Search;
@@ -175,6 +176,24 @@ public class ProductDAO {
 							+ 		 " FROM ("+sql+") vt1 ) vt2 "
 							+ " WHERE row_n BETWEEN "+((search.getCurruntPage()-1)*search.getPageSize()+1)+" AND "+search.getCurruntPage()*search.getPageSize();
 		return currentSql;
+	}
+	
+	// 장바구니 상품 재고수량 가져오기
+	public Map<String, Object> getProdNoList() throws Exception {
+		Connection con = DBUtil.getConnection();
+		String sql = " SELECT amount FROM product WHERE prod_no=? ";
+		PreparedStatement psmt = con.prepareStatement(sql);
+		ResultSet rs = psmt.executeQuery();		
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<Product> list = new ArrayList<Product>();
+		while(rs.next()) {
+			Product p = new Product();
+			p.setAmount(rs.getInt(1));
+			list.add(p);
+		}
+		map.put("list", list);
+		return map;
 	}
 
 }

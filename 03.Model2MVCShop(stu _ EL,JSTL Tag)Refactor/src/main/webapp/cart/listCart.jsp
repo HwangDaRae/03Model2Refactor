@@ -13,7 +13,7 @@ function selectAll(){
 	if(document.getElementById("allDeleteCheckBox").checked == true){
 	    for(var i=0;i<arrayCheckBox.length;i++) {
 	    	document.getElementsByName("deleteCheckBox")[i].checked = true;
-	    	document.getElementById('checkCount').innerText = 4;
+	    	document.getElementById('checkCount').innerText = arrayCheckBox.length;
 	    }
 	}else{
 	    for(var i=0;i<arrayCheckBox.length;i++) {
@@ -51,28 +51,29 @@ function count(type, i) {
 
 //체크된 상품개수
 function ischecked(){
-	var ischecked = document.getElementById('deleteCheckBox').checked;
-	var checkCount = document.getElementById('checkCount').innerText;
-	
-	if(ischecked){
-		checkCount++;
-		if(checkCount==4){
-			document.getElementById('allDeleteCheckBox').checked = true;
+	var arrayCheckBox = document.getElementsByName("deleteCheckBox");
+	var checkCount = 0;
+	for(var i=0;i<arrayCheckBox.length;i++) {
+		if(arrayCheckBox[i].checked){
+			checkCount++;
 		}
-	}else if(!ischecked){
-		checkCount--;
-		document.getElementById('allDeleteCheckBox').checked = false;
+    }
+
+	if(parseInt(checkCount)==parseInt(arrayCheckBox.length)){
+		document.getElementById("allDeleteCheckBox").checked = true;
+	}else{
+		document.getElementById("allDeleteCheckBox").checked = false;
 	}
 	
 	document.getElementById('checkCount').innerText = checkCount;
 }
-/*
+
 function deleteBtnClick(){
 	if(confirm('정말 삭제하시겠습니까?')){
 		document.detailForm.submit();
 	}
 }
-*/
+
 </script>
 
 <html>
@@ -106,7 +107,7 @@ function deleteBtnClick(){
 						<a href="">
 							<input type="checkbox" id="allDeleteCheckBox" name="allDeleteCheckBox" value="selectAll" onclick='selectAll()'>전체선택&nbsp;&nbsp;
 							<b id="checkCount">0</b>&nbsp;/&nbsp;${ count }</a>&nbsp;&nbsp;
-						<input type="button" value="선택 삭제" id="allCheckBox" onclick='deleteBtnClick()'>
+						<input type="button" value="선택 삭제" id="deleteCheckBox" onclick='deleteBtnClick()'>
 					</td>
 				</tr>
 				<tr>
@@ -139,7 +140,7 @@ function deleteBtnClick(){
 									<input type="button" value="-" class="btn_minus" onclick='count("minus, ${ i }")'>
 									<b id="result">${ list[i].amount }</b>
 									<input type="text" id="amount" name="amount" value="${ list[i].amount }">
-									<input type="text" id="handleAmount" name="handleAmount" value="${ prod_amount }">
+									<input type="text" id="handleAmount" name="handleAmount" value="${ list[i].prod_amount }">
 									<input type="button" value="+" class="btn_plus" onclick='count("plus, ${ i }")'>
 									<b id="limit"></b>
 								</td>

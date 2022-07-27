@@ -10,26 +10,7 @@ import java.util.Map;
 
 import com.model2.mvc.common.util.DBUtil;
 import com.model2.mvc.service.domain.Cart;
-import com.model2.mvc.service.domain.Product;
 
-/*
-	product_no		NUMBER(20)	NOT NULL REFERENCES product(prod_no),
-	user_id			VARCHAR2(20)	NOT NULL REFERENCES users(user_id),
-	image			VARCHAR(50),
-	product_name		VARCHAR2(100),
-	product_detail		VARCHAR2(200),
-	amount			NUMBER(10),
-	price			NUMVER(10)
-*/
-/*
-	private int prod_no;
-	private String user_id;
-	private String image;
-	private String prod_name;
-	private String prod_detail;
-	private int amount;
-	private int price;
-*/
 public class CartDAO {
 
 	public CartDAO() {
@@ -40,20 +21,23 @@ public class CartDAO {
 		System.out.println("CartDAO getCartList(String user_id) start...");
 		
 		Connection con = DBUtil.getConnection();
-		String sql = " SELECT * FROM cart ";
+		String sql = " SELECT c.*, p.amount as prod_amount "
+					+ " FROM cart c, product p "
+					+ " WHERE c.prod_no = p.prod_no ";
 		PreparedStatement psmt = con.prepareStatement(sql);
 		ResultSet rs = psmt.executeQuery();
 		
 		List<Cart> list = new ArrayList<Cart>();
 		while(rs.next()) {
 			Cart cart = new Cart();
-			cart.setProd_no(rs.getInt(1));
-			cart.setUser_id(rs.getString(2));
-			cart.setImage(rs.getString(3));
-			cart.setProd_name(rs.getString(4));
-			cart.setProd_detail(rs.getString(5));
-			cart.setAmount(rs.getInt(6));
-			cart.setPrice(rs.getInt(7));
+			cart.setProd_no(rs.getInt("PROD_NO"));
+			cart.setUser_id(rs.getString("USER_ID"));
+			cart.setImage(rs.getString("IMAGE"));
+			cart.setProd_name(rs.getString("PRODUCT_NAME"));
+			cart.setProd_detail(rs.getString("PRODUCT_DETAIL"));
+			cart.setAmount(rs.getInt("AMOUNT"));
+			cart.setPrice(rs.getInt("PRICE"));
+			cart.setProd_amount(rs.getInt("PROD_AMOUNT"));
 			list.add(cart);
 		}
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -139,7 +123,7 @@ public class CartDAO {
 		System.out.println("CartDAO updateAmount(Cart cart) start...");
 		
 		Connection con = DBUtil.getConnection();
-		String sql = " UPDATE cart SET amout=? WHERE product_no=? AND user_id=? ";
+		String sql = " UPDATE cart SET amount=? WHERE prod_no=? AND user_id=? ";
 		PreparedStatement psmt = con.prepareStatement(sql);
 		psmt.setInt(1, cart.getAmount());
 		psmt.setInt(2, cart.getProd_no());
@@ -155,25 +139,6 @@ public class CartDAO {
 		DBUtil.close(con, psmt);
 		System.out.println("CartDAO updateAmount(Cart cart) end...");
 	}//end of updateAmount(Cart cart)
-	
-	// 장바구니 상품 재고수량 가져오기
-	public Map<String, Object> getProdNoList() throws Exception {
-		Connection con = DBUtil.getConnection();
-		String sql = " SELECT amount FROM product WHERE prod_no=? ";
-		PreparedStatement psmt = con.prepareStatement(sql);
-		ResultSet rs = psmt.executeQuery();		
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		ArrayList<Product> list = new ArrayList<Product>();
-		while(rs.next()) {
-			Product p = new Product();
-			p.setAmount(rs.getInt(1));
-			list.add(p);
-		}
-		map.put("list", list);
-		return map;
-	}
-
 }
 
 

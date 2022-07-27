@@ -6,9 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.model2.mvc.common.Search;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.cart.CartService;
 import com.model2.mvc.service.cart.impl.CartServiceImpl;
@@ -64,11 +62,8 @@ public class AddCartAction extends Action {
 		
 		if(!isProdNo) {
 			service.insertCart(cart);
-			map = service.getCartList( ( (User)request.getSession(true).getAttribute("user") ).getUserId() );
-		}else {
-			//여기가 없으면 수량 업데이트 되기전 리스트 가져간다. 수량 업데이트 된 리스트 가져온다
-			map = service.getCartList( ( (User)request.getSession(true).getAttribute("user") ).getUserId() );
 		}
+		map = service.getCartList( ( (User)request.getSession(true).getAttribute("user") ).getUserId() );
 		
 		request.setAttribute("list", map.get("list"));
 		request.setAttribute("count", map.get("count"));
