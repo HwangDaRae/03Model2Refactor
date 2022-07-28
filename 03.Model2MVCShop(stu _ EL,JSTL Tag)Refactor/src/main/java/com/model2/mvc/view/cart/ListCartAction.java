@@ -11,8 +11,6 @@ import com.model2.mvc.service.cart.CartService;
 import com.model2.mvc.service.cart.impl.CartServiceImpl;
 import com.model2.mvc.service.domain.Cart;
 import com.model2.mvc.service.domain.User;
-import com.model2.mvc.service.product.ProductService;
-import com.model2.mvc.service.product.impl.ProductServiceImpl;
 
 public class ListCartAction extends Action {
 	public ListCartAction() {

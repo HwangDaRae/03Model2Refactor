@@ -31,6 +31,8 @@
 	</tr>
 </table>
 
+
+<c:forEach var="i" begin="0" end="${ fn:length(list) }" step="1">
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 13px;">
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -43,7 +45,7 @@
 		<td class="ct_write01">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105">${ purchaseVO.tranNo }</td>
+					<td width="105">${ list[i].tranNo }<%-- ${ purchaseVO.tranNo } --%></td>
 					<td></td>
 				</tr>
 			</table>
@@ -57,7 +59,7 @@
 			구매자아이디 <img	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ purchaseVO.buyer.userId }</td>
+		<td class="ct_write01">${ list[i].buyer.userId }<%-- ${ purchaseVO.buyer.userId } --%></td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -66,7 +68,7 @@
 	<tr>
 		<td width="104" class="ct_write">구매방법</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ (fn:trim(purchaseVO.paymentOption) == '1')?"현금구매":"신용구매" }</td>
+		<td class="ct_write01">${ (fn:trim(list[i].paymentOption) == '1')?"현금구매":"신용구매" }<%-- ${ (fn:trim(purchaseVO.paymentOption) == '1')?"현금구매":"신용구매" } --%></td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -74,7 +76,7 @@
 	<tr>
 		<td width="104" class="ct_write">구매자이름</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ purchaseVO.receiverName }</td>
+		<td class="ct_write01">${ list[i].receiverName }<%-- ${ purchaseVO.receiverName } --%></td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -82,7 +84,7 @@
 	<tr>
 		<td width="104" class="ct_write">구매자연락처</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ purchaseVO.receiverPhone }</td>
+		<td class="ct_write01">${ list[i].receiverPhone }<%-- ${ purchaseVO.receiverPhone } --%></td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -90,7 +92,7 @@
 	<tr>
 		<td width="104" class="ct_write">구매자주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ purchaseVO.divyAddr }</td>
+		<td class="ct_write01">${ list[i].divyAddr }<%-- ${ purchaseVO.divyAddr } --%></td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -98,7 +100,7 @@
 	<tr>
 		<td width="104" class="ct_write">구매요청사항</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ purchaseVO.divyRequest }</td>
+		<td class="ct_write01">${ list[i].divyRequest }<%-- ${ purchaseVO.divyRequest } --%></td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -106,7 +108,7 @@
 	<tr>
 		<td width="104" class="ct_write">배송희망일</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ purchaseVO.divyDate }</td>
+		<td class="ct_write01">${ list[i].divyDate }<%-- ${ purchaseVO.divyDate } --%></td>
 	</tr>
 
 	<tr>
@@ -116,7 +118,7 @@
 	<tr>
 		<td width="104" class="ct_write">주문일</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ purchaseVO.orderDate }</td>
+		<td class="ct_write01">${ list[i].orderDate }<%-- ${ purchaseVO.orderDate } --%></td>
 	</tr>
 
 	<tr>
@@ -126,13 +128,13 @@
 	<tr>
 		<td width="104" class="ct_write">구매수량</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${ purchaseVO.amount }</td>
+		<td class="ct_write01">${ list[i].amount }<%-- ${ purchaseVO.amount } --%></td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
-	
 </table>
+</c:forEach>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
 	<tr>
@@ -140,7 +142,7 @@
 		<td align="right">
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<c:if test="${ fn:trim(purchaseVO.tranCode) == '0' || fn:trim(purchaseVO.tranCode) == '1' }">
+					<c:if test="${ fn:trim(list.tranCode) == '0' || fn:trim(list.tranCode) == '1' }<%-- ${ fn:trim(purchaseVO.tranCode) == '0' || fn:trim(purchaseVO.tranCode) == '1' } --%>">
 					<td width="17" height="23">
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
