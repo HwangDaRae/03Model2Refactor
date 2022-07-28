@@ -74,8 +74,7 @@ function deleteBtnClick(){
 }
 
 function cartTransaction(){
-	alert('a');
-		
+	alert('a');		
 	document.detailForm.submit();
 }
 
