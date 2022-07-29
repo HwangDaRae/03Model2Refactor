@@ -90,30 +90,29 @@ public class AddPurchaseAction extends Action {
 				for (int j = 0; j < checkedProdNo.length; j++) {
 					System.out.println("여기는 for문안2");
 					if(checkedProdNo[j].equals(allCheckBoxProdNo[i])) {
+						Purchase purchase = new Purchase();
 						System.out.println("상품번호 : " + allCheckBoxProdNo[i]);
 						System.out.println("수량 : " + allamountProdNo[i]);
 						
 						//구매할 상품정보
 						productVO = pService.getProduct(Integer.parseInt(allCheckBoxProdNo[i]));
-						purchaseVO.setPurchaseProd(productVO);
+						purchase.setPurchaseProd(productVO);
 						
 						//구매한 유저정보
 						User userVO = uService.getUser( ((User)request.getSession(true).getAttribute("user")).getUserId() );
-						purchaseVO.setBuyer(userVO);
+						purchase.setBuyer(userVO);
 						
 						//구매한 상품의 수량정보
-						purchaseVO.setAmount(Integer.parseInt(allamountProdNo[i]));
+						purchase.setAmount(Integer.parseInt(allamountProdNo[i]));
 		
 						// 상품 수량 -= 구매한 수량
 						productVO.setAmount( productVO.getAmount() - Integer.parseInt(allamountProdNo[i]) );
 						pService.updateProduct(productVO);
-						
-						System.out.println("여기는 장바구니 구매 액션 : " + purchaseVO.toString());
-						System.out.println("여기는 장바구니 구매 액션 : " + productVO.toString());
 		
 						//가져온상품과 구매정보를 PurchaseVO에 넣는다
-						purchaseVO = service.addPurchase(purchaseVO, productVO);
-						System.out.println("purchaseVO.toString() : " + purchaseVO.toString());
+						purchase = service.addPurchase(purchase, productVO);						
+						System.out.println("여기는 장바구니 구매 액션 : " + purchase.toString());
+						System.out.println("여기는 장바구니 구매 액션 : " + productVO.toString());
 						
 						//구매한 상품 장바구니에서 삭제
 						map.put("user_id", ((User)request.getSession(true).getAttribute("user")).getUserId());
@@ -122,16 +121,17 @@ public class AddPurchaseAction extends Action {
 						map.put("deleteArray", arrayProdNo);
 						cService.deleteCart(map);
 						
-						list.add(purchaseVO);
+						list.add(purchase);
+						System.out.println(list.toString());
+
 					}
 				}
 			}
-			request.setAttribute("list", list);
-			
-			for (Purchase string : list) {
-				System.out.println("@@@@@@@@@@@" + string.toString());
-			}
 
+		}
+		request.setAttribute("list", list);
+		for (Purchase purchase : list) {
+			System.out.println(purchase.toString());
 		}
 				
 		System.out.println("[AddPurchaseAction execute() end...]");
