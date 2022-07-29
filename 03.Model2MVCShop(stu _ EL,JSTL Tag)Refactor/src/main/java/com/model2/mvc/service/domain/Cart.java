@@ -1,12 +1,12 @@
 package com.model2.mvc.service.domain;
 /*
-	product_no		NUMBER(20)	NOT NULL REFERENCES product(prod_no),
-	user_id			VARCHAR2(20)	NOT NULL REFERENCES users(user_id),
-	image			VARCHAR(50),
+	prod_no				NUMBER(20)			NOT NULL REFERENCES product(prod_no),
+	user_id				VARCHAR2(20)		NOT NULL REFERENCES users(user_id),
+	image				VARCHAR(50),
 	product_name		VARCHAR2(100),
 	product_detail		VARCHAR2(200),
-	amount			NUMBER(10),
-	price			NUMVER(10)
+	amount				NUMBER(10),
+	price				NUMBER(10)
 */
 public class Cart {
 	

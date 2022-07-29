@@ -21,7 +21,7 @@ public class CartDAO {
 		System.out.println("CartDAO getCartList(String user_id) start...");
 		
 		Connection con = DBUtil.getConnection();
-		String sql = " SELECT c.prod_no, c.user_id, c.image, c.prod_name, c.prod_detail, c.amount, c.price, p.amount as prod_amount "
+		String sql = " SELECT c.prod_no, c.user_id, c.image, c.product_name, c.product_detail, c.amount, c.price, p.amount as prod_amount "
 				+ " FROM cart c, product p "
 				+ " WHERE c.prod_no = p.prod_no AND user_id=? ";
 		PreparedStatement psmt = con.prepareStatement(sql);
@@ -35,7 +35,7 @@ public class CartDAO {
 			cart.setUser_id(rs.getString("USER_ID"));
 			cart.setImage(rs.getString("IMAGE"));
 			cart.setProd_name(rs.getString("PRODUCT_NAME"));
-			cart.setProd_detail(rs.getString("product_detail"));
+			cart.setProd_detail(rs.getString("PRODUCT_DETAIL"));
 			cart.setAmount(rs.getInt("AMOUNT"));
 			cart.setPrice(rs.getInt("PRICE"));
 			cart.setProd_amount(rs.getInt("PROD_AMOUNT"));
@@ -53,7 +53,7 @@ public class CartDAO {
 	
 	public int totalCount(String originalSql, String user_id) throws Exception {
 		Connection con = DBUtil.getConnection();
-		String sql = " SELECT COUNT(*) FROM ( "+originalSql+" ) WHERE user_id=? ";
+		String sql = " SELECT COUNT(*) FROM ( "+originalSql+" ) ";
 		PreparedStatement psmt = con.prepareStatement(sql);
 		psmt.setString(1, user_id);
 		ResultSet rs = psmt.executeQuery();
@@ -99,8 +99,9 @@ public class CartDAO {
 		int[] prod_no_array = (int[]) map.get("deleteArray");
 		
 		System.out.println(user_id);
+		
 		for (int i = 0; i < prod_no_array.length; i++) {
-			System.out.println(prod_no_array[i]);
+			System.out.println("여기는 삭제 DAO : " + prod_no_array[i]);
 		}
 		
 		//DELETE FROM cart WHERE prod_no IN ( 10031, 10003, 10025 ) AND user_id=?

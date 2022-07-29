@@ -44,6 +44,11 @@ public class AddCartAction extends Action {
 		// 같은 상품이 있는지 비교하는 리스트
 		CartService service = new CartServiceImpl();
 		map = service.getCartList( ( (User)request.getSession(true).getAttribute("user") ).getUserId() );
+		ArrayList<Cart> testList = (ArrayList<Cart>)map.get("list");
+		
+		for (int i = 0; i < testList.size(); i++) {
+			System.out.println(testList.get(i).toString());
+		}
 		
 		//장바구니 전부를 가져와서 상품번호가 같다면 수량추가
 		boolean isProdNo = false;
@@ -60,6 +65,7 @@ public class AddCartAction extends Action {
 			}
 		}
 		
+		System.out.println(!isProdNo);
 		if(!isProdNo) {
 			service.insertCart(cart);
 		}

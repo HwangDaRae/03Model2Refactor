@@ -69,16 +69,12 @@ public class AddPurchaseAction extends Action {
 			//가져온상품과 구매정보를 PurchaseVO에 넣는다
 			purchaseVO = service.addPurchase(purchaseVO, productVO);
 			System.out.println("purchaseVO.toString() : " + purchaseVO.toString());
-
-			//구매한 상품 장바구니에서 삭제
-			map.put("user_id", ((User)request.getSession(true).getAttribute("user")).getUserId());
-			map.put("deleteArray", Integer.parseInt(request.getParameter("prodNo")));
-			cService.deleteCart(map);
 			
 			list.add(purchaseVO);
 			
 			request.setAttribute("list", list);
 		}else{
+			//구매하기까지는 성공 장바구니에서 삭제실패 화면에 뿌리기 안됨
 			System.out.println("여기는 장바구니에서 구매");
 			//장바구니에서 구매
 			String[] allCheckBoxProdNo = request.getParameterValues("addPurchaseCheckBox");
@@ -111,6 +107,9 @@ public class AddPurchaseAction extends Action {
 						// 상품 수량 -= 구매한 수량
 						productVO.setAmount( productVO.getAmount() - Integer.parseInt(allamountProdNo[i]) );
 						pService.updateProduct(productVO);
+						
+						System.out.println("여기는 장바구니 구매 액션 : " + purchaseVO.toString());
+						System.out.println("여기는 장바구니 구매 액션 : " + productVO.toString());
 		
 						//가져온상품과 구매정보를 PurchaseVO에 넣는다
 						purchaseVO = service.addPurchase(purchaseVO, productVO);
@@ -118,7 +117,9 @@ public class AddPurchaseAction extends Action {
 						
 						//구매한 상품 장바구니에서 삭제
 						map.put("user_id", ((User)request.getSession(true).getAttribute("user")).getUserId());
-						map.put("deleteArray", allCheckBoxProdNoNum);
+						int[] arrayProdNo = new int[1];
+						arrayProdNo[0] = productVO.getProdNo();
+						map.put("deleteArray", arrayProdNo);
 						cService.deleteCart(map);
 						
 						list.add(purchaseVO);
