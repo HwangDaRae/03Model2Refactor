@@ -148,7 +148,8 @@ function cartTransaction(){
 						<c:forEach var="i" begin="0" end="${ size-1 }" step="1">
 							<tr class="ct_list_pop" id="divDataId">
 								<td align="center">
-								<c:if test="${ list[i].prod_amount != 0 }">
+								<%-- <c:if test="${ list[i].prod_amount != 0 }"> --%>
+								<c:if test="${ count > 0 }">
 								<input type="checkbox" onclick="ischecked()" id="deleteCheckBox" name="deleteCheckBox" value="${ list[i].prod_no }"></td>
 								</c:if>
 								<td></td>
