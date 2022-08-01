@@ -25,32 +25,21 @@ function count(type,i,size) {
 	
 	//type에 plus or minus가 포함되어 있다면
 	var typeArr = type.split(",");
-	alert('type : ' + typeArr[0]);
-	alert('list 순서 : ' + typeArr[1]);
-	alert('list size : ' + typeArr[2]);
 
 	for (var i = 0; i < typeArr[2]; i++) {
-		alert('a');
 		if(typeArr[1] == i){
-			alert('b');
 			//화면에 보이는 수량
 			var countAmount = document.getElementById('result_'+i).innerText;
-			alert(countAmount);
 			//상품재고수량
 			var prodAmount = document.getElementById('prodAmount_'+i).value;
-			alert(prodAmount);
 			
 			if(typeArr[0]=='plus'){
-				alert('plus로 왔다');
-				alert("countAmount : " + countAmount + ", prodAmount : " + prodAmount);
 				if(parseInt(countAmount) < parseInt(prodAmount)){
 					countAmount = parseInt(countAmount) +1;
 				}else if(parseInt(countAmount) == parseInt(prodAmount)){
 					document.getElementById('limit_'+i).innerText = '더이상 구매하실 수 없습니다';
 				}
 			}else if(typeArr[0]=='minus'){
-				alert('minus로 왔다');
-				alert("countAmount : " + countAmount);
 				if(parseInt(countAmount) == 1){
 					countAmount = 1;
 				}else if(parseInt(countAmount) > 1){
@@ -69,93 +58,7 @@ function count(type,i,size) {
 	}//end of for
 	
 }
-/*
-function count(type,i,size) {
-	alert(type);
-	
-	//화면에 보이는 수량
-	var countAmount = document.getElementById('result').innerText;
-	//상품재고수량
-	var prodAmount = document.getElementById('prodAmount').value;
-	//type에 plus or minus가 포함되어 있다면
-	var typeArr = type.split(",");
-	alert('type : ' + typeArr[0]);
-	alert('list 순서 : ' + typeArr[1]);
-	alert('list size : 'typeArr[2]);
-	
-	alert('=====' + typeArr[2]);
-	for (var i = 0; i < array.length; i++) {
-		
-	}
-	
-	
-	if(typeArr[0]=='plus'){
-		alert('plus로 왔다');
-		alert("countAmount : " + countAmount + ", prodAmount : " + prodAmount);
-		if(parseInt(countAmount) < parseInt(prodAmount)){
-			countAmount = parseInt(countAmount) +1;
-		}else if(parseInt(countAmount) == parseInt(prodAmount)){
-			document.getElementById('limit').innerText = '더이상 구매하실 수 없습니다';
-		}
-	}else if(typeArr[0]=='minus'){
-		alert('minus로 왔다');
-		alert("countAmount : " + countAmount);
-		if(parseInt(countAmount) == 1){
-			countAmount = 1;
-		}else if(parseInt(countAmount) > 1){
-			countAmount = parseInt(countAmount) -1;
-			document.getElementById('limit').innerText = ' ';
-		}
-	}
 
-	var printPrice = document.getElementById('printPrice').innerText;
-	document.getElementById('printAmount').innerText = parseInt(countAmount);
-	document.getElementById('printTotalPrice').innerText = parseInt(countAmount) * parseInt(printPrice);
-	document.getElementById('result').innerText = countAmount;
-	document.getElementById('amount').value = countAmount;
-}
-*/
-/* 
-function count(type, i) {
-	alert(type);
-	
-	//화면에 보이는 수량
-	var countAmount = document.getElementById('result').innerText;
-	//상품재고수량
-	var prodAmount = document.getElementById('prodAmount').value;
-	//type에 plus or minus가 포함되어 있다면
-	var typeArr = type.split(", ");
-	alert(typeArr[0]);
-	alert(typeArr[1]);
-	alert(typeArr[1].length);
-	
-	
-	if(typeArr[0]=='plus'){
-		alert('plus로 왔다');
-		alert("countAmount : " + countAmount + ", prodAmount : " + prodAmount);
-		if(parseInt(countAmount) < parseInt(prodAmount)){
-			countAmount = parseInt(countAmount) +1;
-		}else if(parseInt(countAmount) == parseInt(prodAmount)){
-			document.getElementById('limit').innerText = '더이상 구매하실 수 없습니다';
-		}
-	}else if(typeArr[0]=='minus'){
-		alert('minus로 왔다');
-		alert("countAmount : " + countAmount);
-		if(parseInt(countAmount) == 1){
-			countAmount = 1;
-		}else if(parseInt(countAmount) > 1){
-			countAmount = parseInt(countAmount) -1;
-			document.getElementById('limit').innerText = ' ';
-		}
-	}
-
-	var printPrice = document.getElementById('printPrice').innerText;
-	document.getElementById('printAmount').innerText = parseInt(countAmount);
-	document.getElementById('printTotalPrice').innerText = parseInt(countAmount) * parseInt(printPrice);
-	document.getElementById('result').innerText = countAmount;
-	document.getElementById('amount').value = countAmount;
-}
-*/
 //체크된 상품개수
 function ischecked(){
 	var arrayCheckBox = document.getElementsByName("deleteCheckBox");
@@ -197,7 +100,7 @@ function cartTransaction(){
 
 <body bgcolor="#ffffff" text="#000000">
 	<div style="width: 98%; margin-left: 10px;">
-		<form name="detailForm" action="/addPurchase.do" method="post">
+		<form name="detailForm" action="/deliveryCart.do" method="post">
 			<table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 				<tr>
 					<td width="15" height="37"><img src="/images/ct_ttl_img01.gif" width="15" height="37" /></td>
@@ -245,7 +148,9 @@ function cartTransaction(){
 						<c:forEach var="i" begin="0" end="${ size-1 }" step="1">
 							<tr class="ct_list_pop" id="divDataId">
 								<td align="center">
+								<c:if test="${ list[i].prod_amount != 0 }">
 								<input type="checkbox" onclick="ischecked()" id="deleteCheckBox" name="deleteCheckBox" value="${ list[i].prod_no }"></td>
+								</c:if>
 								<td></td>
 								<td align="left"><img height="250" width="250" src="/images/uploadFiles/${ list[i].image }"/></td>
 								<td></td>

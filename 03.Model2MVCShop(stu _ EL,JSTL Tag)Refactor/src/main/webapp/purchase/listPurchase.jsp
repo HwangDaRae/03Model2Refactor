@@ -58,44 +58,46 @@
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
 
-	<c:set var="size" value="${ fn:length(list) }"/>
+	<c:if test="${ fn:length(list) != 0 }">
+		<c:set var="size" value="${ fn:length(list) }"/>
+		
+		<c:forEach var="i" begin="0" end="${ size-1 }" step="1">
+			<tr class="ct_list_pop">
+				<td align="center">
+					<a href="/getPurchase.do?tranNo=${ list[i].tranNo }">${ size-i }</a>
+				</td>
+				<td></td>
+				<td align="left">
+					<a href="/getUser.do?userId=${ list[i].buyer.userId }">${ list[i].buyer.userId }</a>
+				</td>
+				<td></td>
+				<td align="left">${ list[i].receiverName }</td>
+				<td></td>
+				<td align="left">${ list[i].receiverPhone }</td>
+				<td></td>
+				<td align="left">
+				
+				<c:if test="${ fn:trim(list[i].tranCode) != '2' && fn:trim(list[i].tranCode) != '3' }">
+					현재 구매완료 상태 입니다.
+				</c:if>
+				<c:if test="${ fn:trim(list[i].tranCode) == '2' }">
+					현재 배송중 상태 입니다.
+				</c:if>
+				<c:if test="${ fn:trim(list[i].tranCode) == '3' }">
+					현재 배송완료 상태 입니다.
+				</c:if>
 	
-	<c:forEach var="i" begin="0" end="${ size-1 }" step="1">
-		<tr class="ct_list_pop">
-			<td align="center">
-				<a href="/getPurchase.do?tranNo=${ list[i].tranNo }">${ size-i }</a>
-			</td>
-			<td></td>
-			<td align="left">
-				<a href="/getUser.do?userId=${ list[i].buyer.userId }">${ list[i].buyer.userId }</a>
-			</td>
-			<td></td>
-			<td align="left">${ list[i].receiverName }</td>
-			<td></td>
-			<td align="left">${ list[i].receiverPhone }</td>
-			<td></td>
-			<td align="left">
-			
-			<c:if test="${ fn:trim(list[i].tranCode) != '2' && fn:trim(list[i].tranCode) != '3' }">
-				현재 구매완료 상태 입니다.
-			</c:if>
-			<c:if test="${ fn:trim(list[i].tranCode) == '2' }">
-				현재 배송중 상태 입니다.
-			</c:if>
-			<c:if test="${ fn:trim(list[i].tranCode) == '3' }">
-				현재 배송완료 상태 입니다.
-			</c:if>
-
-			</td>
-			<td></td>
-
-			<c:if test="${ fn:trim(list[i].tranCode) == '2' }">
-			<td align="left"><a href="/updateTranCode.do?tranNo=${ list[i].tranNo }&tranCode=3&currentPage=${ resultPage.currentPage }">물건도착</a>
-			</td>
-			</c:if>
-
-		</tr>
-	</c:forEach>
+				</td>
+				<td></td>
+	
+				<c:if test="${ fn:trim(list[i].tranCode) == '2' }">
+				<td align="left"><a href="/updateTranCode.do?tranNo=${ list[i].tranNo }&tranCode=3&currentPage=${ resultPage.currentPage }">물건도착</a>
+				</td>
+				</c:if>
+	
+			</tr>
+		</c:forEach>
+	</c:if>
 		
 	<tr>
 		<td colspan="11" bgcolor="D6D7D6" height="1"></td>

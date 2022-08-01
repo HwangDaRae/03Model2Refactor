@@ -14,53 +14,64 @@
 
 <c:forEach var="i" begin="0" end="${ fn:length(list) -1 }" step="1">
 <table border=1>
+	<tr class="ct_list_pop" id="divDataId">
+		<td align="center"><img height="250" width="250" src="/images/uploadFiles/${ list[i].purchaseProd.fileName }"/></td>
+		<td></td>
+		<td align="left">${ list[i].purchaseProd.prodName }</td>
+		<td></td>
+		<td align="left">${ list[i].purchaseProd.prodDetail }</td>
+		<td></td>
+		<td align="left">${ list[i].amount }개</td>
+	</tr>
+</table>
+</c:forEach>
+<table border=1>
 	<tr>
 		<td>물품번호</td>
-		<td>${ list[i].purchaseProd.prodNo }<%-- ${ purchaseVO.purchaseProd.prodNo } --%></td>
+		<td>${ list[0].purchaseProd.prodNo }<%-- ${ purchaseVO.purchaseProd.prodNo } --%></td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자아이디</td>
-		<td>${ list[i].buyer.userId }<%-- ${ purchaseVO.buyer.userId } --%></td>
+		<td>${ list[0].buyer.userId }<%-- ${ purchaseVO.buyer.userId } --%></td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매방법</td>
-		<td>${ (fn:trim(list[i].paymentOption) == '1')?"현금구매":"신용구매" }<%-- ${ (purchaseVO.paymentOption == '1')?"현금구매":"신용구매" } --%></td>
+		<td>${ (fn:trim(list[0].paymentOption) == '1')?"현금구매":"신용구매" }<%-- ${ (purchaseVO.paymentOption == '1')?"현금구매":"신용구매" } --%></td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자이름</td>
-		<td>${ list[i].receiverName }<%-- ${ purchaseVO.receiverName } --%></td>
+		<td>${ list[0].receiverName }<%-- ${ purchaseVO.receiverName } --%></td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자연락처</td>
-		<td>${ list[i].receiverPhone }<%-- ${ purchaseVO.receiverPhone } --%></td>
+		<td>${ list[0].receiverPhone }<%-- ${ purchaseVO.receiverPhone } --%></td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>구매자주소</td>
-		<td>${ list[i].divyAddr }<%-- ${ purchaseVO.divyAddr } --%></td>
+		<td>${ list[0].divyAddr }<%-- ${ purchaseVO.divyAddr } --%></td>
 		<td></td>
 	</tr>
 		<tr>
 		<td>구매요청사항</td>
-		<td>${ list[i].divyRequest }<%-- ${ purchaseVO.divyRequest } --%></td>
+		<td>${ list[0].divyRequest }<%-- ${ purchaseVO.divyRequest } --%></td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>배송희망일자</td>
-		<td>${ list[i].divyDate }<%-- ${ purchaseVO.divyDate } --%></td>
+		<td>${ list[0].divyDate }<%-- ${ purchaseVO.divyDate } --%></td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>수량</td>
-		<td>${ list[i].amount }<%-- ${ purchaseVO.amount } --%></td>
+		<td>${ list[0].amount }<%-- ${ purchaseVO.amount } --%></td>
 		<td></td>
 	</tr>
 </table>
-</c:forEach>
 </form>
 
 </body>
