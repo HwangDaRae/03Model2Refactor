@@ -20,33 +20,142 @@ function selectAll(){
 }
 
 //수량변경
-function count(type, i) {
+function count(type,i,size) {
 	alert(type);
-	//화면에 보이는 수량
-	var number = document.getElementById('result').innerText;
-	//상품재고수량
-	var handleAmount = document.getElementById('handleAmount').value;
 	
-	if(type=='plus'){
-		if(number < handleAmount){
-			number = parseInt(number) +1;
-		}else if(number == handleAmount){
+	//type에 plus or minus가 포함되어 있다면
+	var typeArr = type.split(",");
+	alert('type : ' + typeArr[0]);
+	alert('list 순서 : ' + typeArr[1]);
+	alert('list size : ' + typeArr[2]);
+
+	for (var i = 0; i < typeArr[2]; i++) {
+		alert('a');
+		if(typeArr[1] == i){
+			alert('b');
+			//화면에 보이는 수량
+			var countAmount = document.getElementById('result_'+i).innerText;
+			alert(countAmount);
+			//상품재고수량
+			var prodAmount = document.getElementById('prodAmount_'+i).value;
+			alert(prodAmount);
+			
+			if(typeArr[0]=='plus'){
+				alert('plus로 왔다');
+				alert("countAmount : " + countAmount + ", prodAmount : " + prodAmount);
+				if(parseInt(countAmount) < parseInt(prodAmount)){
+					countAmount = parseInt(countAmount) +1;
+				}else if(parseInt(countAmount) == parseInt(prodAmount)){
+					document.getElementById('limit_'+i).innerText = '더이상 구매하실 수 없습니다';
+				}
+			}else if(typeArr[0]=='minus'){
+				alert('minus로 왔다');
+				alert("countAmount : " + countAmount);
+				if(parseInt(countAmount) == 1){
+					countAmount = 1;
+				}else if(parseInt(countAmount) > 1){
+					countAmount = parseInt(countAmount) -1;
+					document.getElementById('limit_'+i).innerText = ' ';
+				}
+			}
+			
+			var printPrice = document.getElementById('printPrice_'+i).innerText;
+			document.getElementById('printAmount_'+i).innerText = parseInt(countAmount);
+			document.getElementById('printTotalPrice_'+i).innerText = parseInt(countAmount) * parseInt(printPrice);
+			document.getElementById('result_'+i).innerText = countAmount;
+			document.getElementById('amount_'+i).value = countAmount;
+			
+		}//end of if(typeArr[1] == i)
+	}//end of for
+	
+}
+/*
+function count(type,i,size) {
+	alert(type);
+	
+	//화면에 보이는 수량
+	var countAmount = document.getElementById('result').innerText;
+	//상품재고수량
+	var prodAmount = document.getElementById('prodAmount').value;
+	//type에 plus or minus가 포함되어 있다면
+	var typeArr = type.split(",");
+	alert('type : ' + typeArr[0]);
+	alert('list 순서 : ' + typeArr[1]);
+	alert('list size : 'typeArr[2]);
+	
+	alert('=====' + typeArr[2]);
+	for (var i = 0; i < array.length; i++) {
+		
+	}
+	
+	
+	if(typeArr[0]=='plus'){
+		alert('plus로 왔다');
+		alert("countAmount : " + countAmount + ", prodAmount : " + prodAmount);
+		if(parseInt(countAmount) < parseInt(prodAmount)){
+			countAmount = parseInt(countAmount) +1;
+		}else if(parseInt(countAmount) == parseInt(prodAmount)){
 			document.getElementById('limit').innerText = '더이상 구매하실 수 없습니다';
 		}
-	}else if(type=='minus'){
-		if(number==0){
-			number = 1;
-		}else if(number!=0){
-			number = parseInt(number) -1;
+	}else if(typeArr[0]=='minus'){
+		alert('minus로 왔다');
+		alert("countAmount : " + countAmount);
+		if(parseInt(countAmount) == 1){
+			countAmount = 1;
+		}else if(parseInt(countAmount) > 1){
+			countAmount = parseInt(countAmount) -1;
+			document.getElementById('limit').innerText = ' ';
 		}
 	}
 
-	var price = document.getElementById('price').innerText;
-	document.getElementById('totalPrice').innerText = parseInt(number) * parseInt(price);
-	document.getElementById('result').innerText = number;
-	document.getElementById('amount').value = number;
+	var printPrice = document.getElementById('printPrice').innerText;
+	document.getElementById('printAmount').innerText = parseInt(countAmount);
+	document.getElementById('printTotalPrice').innerText = parseInt(countAmount) * parseInt(printPrice);
+	document.getElementById('result').innerText = countAmount;
+	document.getElementById('amount').value = countAmount;
 }
+*/
+/* 
+function count(type, i) {
+	alert(type);
+	
+	//화면에 보이는 수량
+	var countAmount = document.getElementById('result').innerText;
+	//상품재고수량
+	var prodAmount = document.getElementById('prodAmount').value;
+	//type에 plus or minus가 포함되어 있다면
+	var typeArr = type.split(", ");
+	alert(typeArr[0]);
+	alert(typeArr[1]);
+	alert(typeArr[1].length);
+	
+	
+	if(typeArr[0]=='plus'){
+		alert('plus로 왔다');
+		alert("countAmount : " + countAmount + ", prodAmount : " + prodAmount);
+		if(parseInt(countAmount) < parseInt(prodAmount)){
+			countAmount = parseInt(countAmount) +1;
+		}else if(parseInt(countAmount) == parseInt(prodAmount)){
+			document.getElementById('limit').innerText = '더이상 구매하실 수 없습니다';
+		}
+	}else if(typeArr[0]=='minus'){
+		alert('minus로 왔다');
+		alert("countAmount : " + countAmount);
+		if(parseInt(countAmount) == 1){
+			countAmount = 1;
+		}else if(parseInt(countAmount) > 1){
+			countAmount = parseInt(countAmount) -1;
+			document.getElementById('limit').innerText = ' ';
+		}
+	}
 
+	var printPrice = document.getElementById('printPrice').innerText;
+	document.getElementById('printAmount').innerText = parseInt(countAmount);
+	document.getElementById('printTotalPrice').innerText = parseInt(countAmount) * parseInt(printPrice);
+	document.getElementById('result').innerText = countAmount;
+	document.getElementById('amount').value = countAmount;
+}
+*/
 //체크된 상품개수
 function ischecked(){
 	var arrayCheckBox = document.getElementsByName("deleteCheckBox");
@@ -133,7 +242,6 @@ function cartTransaction(){
 					<!-- list시작 -->
 					<c:set var="size" value="${ fn:length(list) }"/>
 					<c:if test="${ count > 0 }">
-						<div>
 						<c:forEach var="i" begin="0" end="${ size-1 }" step="1">
 							<tr class="ct_list_pop" id="divDataId">
 								<td align="center">
@@ -144,26 +252,25 @@ function cartTransaction(){
 								<td align="left">${ list[i].prod_name }</td>
 								<td></td>
 								<td align="left">
-									<input type="button" value="-" class="btn_minus" onclick='count("minus, ${ i }")'>
-									<b id="result">${ list[i].amount }</b>
-									<input type="hidden" id="amount" name="amount" value="${ list[i].amount }">
-									<input type="hidden" id="addPurchaseCheckBox" name="addPurchaseCheckBox" value="${ list[i].prod_no }">
-									<input type="hidden" id="handleAmount" name="handleAmount" value="${ list[i].prod_amount }">
-									<input type="button" value="+" class="btn_plus" onclick='count("plus, ${ i }")'>
-									<b id="limit"></b>
+									<input type="button" value="-" class="btn_minus" onclick='count("minus,${ i },${ size }")'>
+									<b id="result_${ i }">${ list[i].amount }</b>
+									<input type="text" id="amount_${ i }" name="amount" value="${ list[i].amount }">
+									<input type="text" id="prodAmount_${ i }" name="prodAmount" value="${ list[i].prod_amount }">
+									<input type="text" id="addPurchaseCheckBox" name="addPurchaseCheckBox" value="${ list[i].prod_no }">
+									<input type="button" value="+" class="btn_plus" onclick='count("plus,${ i },${ size }")'>
+									<b id="limit_${ i }"></b>
 								</td>
 								<td></td>
 								<td align="left">
-								<b id="price">${ list[i].price }</b>원 * 
-								<b>${ list[i].amount }</b>개 = 
-								<b id="totalPrice">${ list[i].price * list[i].amount }</b>원
+								<b id="printPrice_${ i }">${ list[i].price }</b>원 * 
+								<b id="printAmount_${ i }">${ list[i].amount }</b>개 = 
+								<b id="printTotalPrice_${ i }">${ list[i].price * list[i].amount }</b>원
 								</td>
 							</tr>
 							<tr>
 								<td colspan="11" bgcolor="D6D7D6" height="1"></td>
 							</tr>
 						</c:forEach>
-						</div>
 					</c:if>
 			</table>
 
