@@ -12,13 +12,14 @@ import com.model2.mvc.service.user.impl.UserServiceImpl;
 public class UpdateUserViewAction extends Action{
 
 	@Override
-	public String execute(	HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 		String userId=request.getParameter("userId");
 		
-		UserService service=new UserServiceImpl();
-		User userVO=service.getUser(userId);
+		UserService userService=new UserServiceImpl();
+		User user=userService.getUser(userId);
 		
-		request.setAttribute("userVO", userVO);
+		request.setAttribute("user", user);
 		
 		return "forward:/user/updateUser.jsp";
 	}

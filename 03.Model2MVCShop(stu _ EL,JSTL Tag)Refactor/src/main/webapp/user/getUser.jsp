@@ -1,10 +1,12 @@
-<%@page import="com.model2.mvc.service.domain.User"%>
-<%@ page contentType="text/html; charset=EUC-KR "%>
+<%@ page contentType="text/html; charset=EUC-KR"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%-- /////////////////////// EL / JSTL 적용으로 주석 처리 ////////////////////////
+<%@ page import="com.model2.mvc.service.domain.User" %>
 <%
-	User vo = (User)request.getAttribute("vo");
-%>	
-
+	User user = (User)request.getAttribute("user");
+%>	/////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
 <html>
 <head>
 <title>회원정보조회</title>
@@ -17,9 +19,7 @@
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
-		<td width="15" height="37">
-			<img src="/images/ct_ttl_img01.gif" width="15" height="37">
-		</td>
+		<td width="15" height="37"><img src="/images/ct_ttl_img01.gif" width="15" height="37"></td>
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
@@ -28,69 +28,73 @@
 				</tr>
 			</table>
 		</td>
-		<td width="12" height="37"><img src="/images/ct_ttl_img03.gif" width="12" height="37"></td>
+		<td width="12" height="37">
+			<img src="/images/ct_ttl_img03.gif" width="12" height="37"/>
+		</td>
 	</tr>
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:13px;">
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">
-			아이디 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="105"><%=vo.getUserId() %></td>
-					<td></td>
-				</tr>
-			</table>
-		</td>
-	</tr>
+	
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
 	
 	<tr>
 		<td width="104" class="ct_write">
-			이름 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
+			아이디 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%=vo.getUserName() %></td>
+		<%--  <td class="ct_write01"><%=user.getUserId() %></td> --%>
+		<td class="ct_write01">${user.userId}</td>
 	</tr>
+
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
+	
+	<tr>
+		<td width="104" class="ct_write">
+			이름 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle" />
+		</td>
+		<td bgcolor="D6D6D6" width="1"></td>
+		<%--<td class="ct_write01"><%=user.getUserName() %></td> --%>
+		<td class="ct_write01">${user.userName}</td>
+	</tr>
+	
+	<tr>
+		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
+	</tr>
+	
 	<tr>
 		<td width="104" class="ct_write">주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%=vo.getAddr() %></td>
+		<%--<td class="ct_write01"><%=user.getAddr() %></td> --%>
+		<td class="ct_write01">${user.addr}</td>
 	</tr>
+	
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
+	
 	<tr>
 		<td width="104" class="ct_write">휴대전화번호</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"></td>
+		<%--<td class="ct_write01"><%=user.getPhone() %>	</td> --%>
+		<td class="ct_write01">${ !empty user.phone ? user.phone : ''}	</td>
 	</tr>
+
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
+	
 	<tr>
 		<td width="104" class="ct_write">이메일 </td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td height="26"><%=vo.getEmail() %></td>
-				</tr>
-			</table>
-		</td>
+		<%-- <td class="ct_write01"><%=user.getEmail() %></td> --%>
+		<td class="ct_write01">${user.email}</td>
 	</tr>
+
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
@@ -98,12 +102,14 @@
 	<tr>
 		<td width="104" class="ct_write">가입일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%=vo.getRegDate() %></td>
+		<%--<td class="ct_write01"><%=user.getRegDate() %></td> --%>
+		<td class="ct_write01">${user.regDate}</td>
 	</tr>
-
+	
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
+	
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
@@ -112,19 +118,14 @@
 		<td align="right">
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
+					<td width="17" height="23"><img src="/images/ct_btnbg01.gif" width="17" height="23"></td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="/updateUserView.do?userId=<%=vo.getUserId()%>">수정</a>
+						<%--<a href="/updateUserView.do?userId=<%=user.getUserId()%>">수정</a> --%>
+						<a href="/updateUserView.do?userId=${user.userId}">수정</a>
 					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23">
-					</td>
+					<td width="14" height="23"><img src="/images/ct_btnbg03.gif" width="14" height="23"></td>
 					<td width="30"></td>					
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23">
-					</td>
+					<td width="17" height="23"><img src="/images/ct_btnbg01.gif" width="17" height="23"></td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
 						<a href="javascript:history.go(-1);">확인</a>
 					</td>

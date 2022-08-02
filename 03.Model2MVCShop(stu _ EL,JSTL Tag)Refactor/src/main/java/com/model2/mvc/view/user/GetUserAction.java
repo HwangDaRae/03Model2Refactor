@@ -12,14 +12,15 @@ import com.model2.mvc.service.user.impl.UserServiceImpl;
 public class GetUserAction extends Action{
 
 	@Override
-	public String execute(	HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 		String userId=request.getParameter("userId");
 		
-		UserService service=new UserServiceImpl();
-		User vo=service.getUser(userId);
+		UserService userService=new UserServiceImpl();
+		User user=userService.getUser(userId);
 		
-		request.setAttribute("vo", vo);
-
-		return "forward:/user/readUser.jsp";
+		request.setAttribute("user", user);
+		
+		return "forward:/user/getUser.jsp";
 	}
 }

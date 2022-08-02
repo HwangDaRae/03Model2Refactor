@@ -1,12 +1,15 @@
 package com.model2.mvc.view.user;
 
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
 
@@ -14,25 +17,36 @@ import com.model2.mvc.service.user.impl.UserServiceImpl;
 public class ListUserAction extends Action {
 
 	@Override
-	public String execute(	HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Search searchVO=new Search();
-		
-		int page=1;
-		if(request.getParameter("page") != null)
-			page=Integer.parseInt(request.getParameter("page"));
-		
-		searchVO.setCurruntPage(page);
-		searchVO.setSearchCondition(request.getParameter("searchCondition"));
-		searchVO.setSearchKeyword(request.getParameter("searchKeyword"));
-		
-		String pageSize=getServletContext().getInitParameter("pageSize");
-		searchVO.setPageSize(Integer.parseInt(pageSize));
-		
-		UserService service=new UserServiceImpl();
-		HashMap<String,Object> map=service.getUserList(searchVO);
+	public String execute(HttpServletRequest request,	HttpServletResponse response) throws Exception {
 
-		request.setAttribute("map", map);
-		request.setAttribute("searchVO", searchVO);
+		Search search=new Search();
+		
+		int curruntPage=1;
+
+		if(request.getParameter("currentPage") != null){
+			curruntPage=Integer.parseInt(request.getParameter("currentPage"));
+		}
+		
+		search.setCurruntPage(curruntPage);
+		search.setSearchCondition(request.getParameter("searchCondition"));
+		search.setSearchKeyword(request.getParameter("searchKeyword"));
+		
+		// web.xml  meta-data 로 부터 상수 추출 
+		int pageSize = Integer.parseInt( getServletContext().getInitParameter("pageSize"));
+		int pageUnit  =  Integer.parseInt(getServletContext().getInitParameter("pageUnit"));
+		search.setPageSize(pageSize);
+		
+		// Business logic 수행
+		UserService userService=new UserServiceImpl();
+		Map<String, Object> map = userService.getUserList(search);
+		
+		Page resultPage	= new Page( curruntPage, (int)map.get("count"), pageUnit, pageSize);
+		System.out.println("ListUserAction ::" + resultPage);
+		
+		// Model 과 View 연결
+		request.setAttribute("list", map.get("list"));
+		request.setAttribute("resultPage", resultPage);
+		request.setAttribute("search", search);
 		
 		return "forward:/user/listUser.jsp";
 	}

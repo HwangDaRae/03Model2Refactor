@@ -1,9 +1,9 @@
 <%@page import="com.model2.mvc.service.domain.User"%>
 <%@ page contentType="text/html; charset=euc-kr" %>
 
-<%
+<%--
 User vo=(User)request.getAttribute("vo");
-%>
+--%>
 
 <html>
 <head>
@@ -44,7 +44,7 @@ User vo=(User)request.getAttribute("vo");
 		<td class="ct_write01">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105"><%=vo.getUserId() %></td>
+					<td width="105">${ vo.userId }<%--=vo.getUserId() --%></td>
 					<td>	</td>
 				</tr>
 			</table>
@@ -59,7 +59,7 @@ User vo=(User)request.getAttribute("vo");
 			이름 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle">
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%=vo.getUserName() %></td>
+		<td class="ct_write01">${ vo.userName }<%--=vo.getUserName() --%></td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -68,7 +68,7 @@ User vo=(User)request.getAttribute("vo");
 	<tr>
 		<td width="104" class="ct_write">주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%=vo.getAddr() %></td>
+		<td class="ct_write01">${ vo.addr }<%--=vo.getAddr() --%></td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -76,7 +76,7 @@ User vo=(User)request.getAttribute("vo");
 	<tr>
 		<td width="104" class="ct_write">휴대전화번호</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%=vo.getPhone() %></td>
+		<td class="ct_write01">${ vo.phone }<%--=vo.getPhone() --%></td>
 	</tr>
 
 	<tr>
@@ -88,7 +88,7 @@ User vo=(User)request.getAttribute("vo");
 		<td class="ct_write01">
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td height="26"><%=vo.getEmail() %></td>
+					<td height="26">${ vo.email }<%--=vo.getEmail() --%></td>
 				</tr>
 			</table>
 		</td>
@@ -100,7 +100,7 @@ User vo=(User)request.getAttribute("vo");
 	<tr>
 		<td width="104" class="ct_write">가입일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%=vo.getRegDate() %></td>
+		<td class="ct_write01">${ vo.regDate }<%--=vo.getRegDate() --%></td>
 	</tr>
 
 	<tr>
@@ -118,7 +118,7 @@ User vo=(User)request.getAttribute("vo");
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="/updateUserView.do?userId=<%=vo.getUserId() %>">수정</a>
+						<a href="/updateUserView.do?userId=${ vo.userId }<%--=vo.getUserId() --%>">수정</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
