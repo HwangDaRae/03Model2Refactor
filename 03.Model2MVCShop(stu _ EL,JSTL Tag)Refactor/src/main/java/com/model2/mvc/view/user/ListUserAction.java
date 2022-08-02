@@ -36,12 +36,12 @@ public class ListUserAction extends Action {
 		
 		// Business logic 수행
 		UserService userService=new UserServiceImpl();
+		
 		Map<String , Object> map=userService.getUserList(search);
 		
-		Page resultPage	= 
-					new Page( curruntPage, ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		Page resultPage	= new Page( curruntPage, ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("ListUserAction ::"+resultPage);
-		
+
 		// Model 과 View 연결
 		request.setAttribute("list", map.get("list"));
 		request.setAttribute("resultPage", resultPage);
