@@ -20,9 +20,16 @@ public class ListCartAction extends Action {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("[ListCartAction execute() start...]");
-		
 		//left.jsp 레이어에 있는 장바구니 <a href 클릭시 유저에 맞는 장바구니 리스트로 이동
-		String user_id = ( (User)request.getSession(true).getAttribute("user") ).getUserId();
+		
+		User user = (User)request.getSession(true).getAttribute("user");
+		if(user == null) {
+			user = new User();
+			user.setUserId("non-member");
+			request.getSession(true).setAttribute("user", user);
+		}
+		String user_id = user.getUserId();
+		System.out.println("여기는 ListCartAction : " + user_id);
 		
 		CartService service = new CartServiceImpl();
 		Map<String, Object> map = service.getCartList(user_id);

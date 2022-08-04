@@ -82,11 +82,11 @@ public class ProductDAO {
 				+ " where r = 1 ";
 		if(searchVO.getSearchCondition() != null && !searchVO.getSearchKeyword().trim().equals("")) {
 			if(searchVO.getSearchCondition().equals("0")) {
-				sql += " AND p.PROD_NO=" + searchVO.getSearchKeyword();
+				sql += " AND PROD_NO=" + searchVO.getSearchKeyword();
 			}else if(searchVO.getSearchCondition().equals("1")) {
-				sql += " AND UPPER(p.PROD_NAME) LIKE UPPER('%" + searchVO.getSearchKeyword() + "%') ";
+				sql += " AND UPPER(PROD_NAME) LIKE UPPER('%" + searchVO.getSearchKeyword() + "%') ";
 			}else if(searchVO.getSearchCondition().equals("2")) {
-				sql += " AND p.PRICE=" + searchVO.getSearchKeyword();
+				sql += " AND PRICE=" + searchVO.getSearchKeyword();
 			}
 		}
 		System.out.println("ProductDAO Original sql : " + sql);
@@ -157,14 +157,16 @@ public class ProductDAO {
 	public int getTotalCount(String originalSql) throws Exception {
 		Connection con = DBUtil.getConnection();
 		String sql = "SELECT COUNT(*) FROM ("+originalSql+")";
+		System.out.println("전체 레코드 수 : " + sql);
 		PreparedStatement psmt = con.prepareStatement(sql);
 		ResultSet rs = psmt.executeQuery();
 		
 		int totalCount = 0;		
 		while(rs.next()) {
 			totalCount = rs.getInt(1);
+			System.out.println(totalCount);
 		}
-
+		System.out.println(totalCount);
 		DBUtil.close(con, psmt, rs);
 		return totalCount;
 	}

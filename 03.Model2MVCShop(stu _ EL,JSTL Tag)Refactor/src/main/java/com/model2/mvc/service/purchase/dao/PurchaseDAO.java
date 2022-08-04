@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.model2.mvc.common.Search;
@@ -17,6 +18,42 @@ public class PurchaseDAO {
 
 	public PurchaseDAO() {
 		System.out.println("PurchaseDao default constructor");
+	}
+	
+	public List<Purchase> findListPurchase(String tranId) throws Exception {
+		System.out.println("PurchaseDao findListPurchase(String tranId) start...");
+		Connection con = DBUtil.getConnection();
+		String sql = " SELECT * FROM transaction WHERE tran_id = ? ";
+		PreparedStatement psmt = con.prepareStatement(sql);
+		psmt.setString(1, tranId);
+		ResultSet rs = psmt.executeQuery();
+		
+		Product productVO = new Product();
+		User userVO = new User();
+		List<Purchase> list = new ArrayList<Purchase>();
+		while(rs.next()) {
+			Purchase purchaseVO = new Purchase();
+			purchaseVO.setTranNo(rs.getInt("TRAN_NO"));
+			purchaseVO.setTranId(rs.getString("TRAN_ID"));
+			productVO.setProdNo(rs.getInt("PROD_NO"));
+			purchaseVO.setPurchaseProd(productVO);
+			userVO.setUserId(rs.getString("BUYER_ID"));
+			purchaseVO.setBuyer(userVO);
+			purchaseVO.setPaymentOption(rs.getString("PAYMENT_OPTION"));
+			purchaseVO.setReceiverName(rs.getString("RECEIVER_NAME"));
+			purchaseVO.setReceiverPhone(rs.getString("RECEIVER_PHONE"));
+			purchaseVO.setDivyAddr(rs.getString("DEMAILADDR"));
+			purchaseVO.setDivyRequest(rs.getString("DLVY_REQUEST"));
+			purchaseVO.setTranCode(rs.getString("TRAN_STATUS_CODE"));
+			purchaseVO.setOrderDate(rs.getDate("ORDER_DATA"));
+			purchaseVO.setDivyDate(rs.getDate("DLVY_DATE")+"");
+			purchaseVO.setAmount(rs.getInt("AMOUNT"));
+			purchaseVO.setTotalPrice(rs.getInt("TOTAL_PRICE"));
+			
+			list.add(purchaseVO);
+		}
+		DBUtil.close(con, psmt, rs);
+		return list;
 	}
 	
 	public Purchase findPurchase(int tranNo) throws Exception {
@@ -112,25 +149,27 @@ public class PurchaseDAO {
 	public void insertPurchase(Purchase purchaseVO, Product productVO) throws Exception {
 		System.out.println("PurchaseDao insertPurchase(PurchaseVO purchaseVO) start...");
 		Connection conn = DBUtil.getConnection();
-		String sql = " INSERT INTO transaction VALUES (seq_transaction_tran_no.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ";
+		String sql = " INSERT INTO transaction VALUES (seq_transaction_tran_no.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ";
 				if(productVO.getAmount() == 0) {
 					sql += " '1' ";
 				}else {
 					sql += " '0' ";
 				}
-				sql += ", sysdate, ?, ?) ";
+				sql += ", sysdate, ?, ?, ?) ";
 		System.out.println("insertPurchase : " + sql);
 				
 		PreparedStatement psmt = conn.prepareStatement(sql);
-		psmt.setInt(1, purchaseVO.getPurchaseProd().getProdNo());
-		psmt.setString(2, purchaseVO.getBuyer().getUserId());
-		psmt.setString(3, purchaseVO.getPaymentOption());
-		psmt.setString(4, purchaseVO.getReceiverName());
-		psmt.setString(5, purchaseVO.getReceiverPhone());
-		psmt.setString(6, purchaseVO.getDivyAddr());
-		psmt.setString(7, purchaseVO.getDivyRequest());
-		psmt.setString(8, purchaseVO.getDivyDate());
-		psmt.setInt(9, purchaseVO.getAmount());
+		psmt.setString(1, purchaseVO.getTranId());
+		psmt.setInt(2, purchaseVO.getPurchaseProd().getProdNo());
+		psmt.setString(3, purchaseVO.getBuyer().getUserId());
+		psmt.setString(4, purchaseVO.getPaymentOption());
+		psmt.setString(5, purchaseVO.getReceiverName());
+		psmt.setString(6, purchaseVO.getReceiverPhone());
+		psmt.setString(7, purchaseVO.getDivyAddr());
+		psmt.setString(8, purchaseVO.getDivyRequest());
+		psmt.setString(9, purchaseVO.getDivyDate());
+		psmt.setInt(10, purchaseVO.getAmount());
+		psmt.setInt(11, purchaseVO.getTotalPrice());
 		
 		int i = psmt.executeUpdate();
 		if(i==1) {

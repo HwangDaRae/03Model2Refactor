@@ -1,5 +1,6 @@
 package com.model2.mvc.service.purchase.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import com.model2.mvc.common.Search;
@@ -28,6 +29,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 	public Purchase getPurchase(int tranNo) throws Exception {
 		System.out.println("PurchaseServiceImpl getPurchase(int tranNo) start...");
 		return purchaseDAO.findPurchase(tranNo);
+	}
+
+	@Override
+	public List<Purchase> getListPurchase(String tranId) throws Exception {
+		return purchaseDAO.findListPurchase(tranId);
 	}
 
 	@Override
