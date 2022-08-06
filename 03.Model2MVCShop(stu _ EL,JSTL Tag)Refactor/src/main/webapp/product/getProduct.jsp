@@ -1,3 +1,6 @@
+<%@page import="java.net.URLDecoder"%>
+<%@page import="java.net.URLEncoder"%>
+<%@page import="com.model2.mvc.service.domain.Product"%>
 <%@page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -37,6 +40,30 @@ function addPurchase(){
 	document.detailForm.submit();
 }
 </script>
+
+<%
+Product vo = (Product)request.getAttribute("productVO");
+//상품번호를 쿠키에 담는다
+String history = "";
+
+Cookie[] cookies = request.getCookies();
+
+if(cookies != null && cookies.length > 0) {
+	for (int i = 0; i < cookies.length; i++) {
+		if(cookies[i].getName().equals("prodInfoCookie")) {
+			history = URLDecoder.decode(cookies[i].getValue()) + "," + vo.getProdNo();
+		}
+	}			
+}
+
+if(history.isEmpty()) {
+	history = vo.getProdNo()+"";
+}
+
+Cookie cookie = new Cookie("prodInfoCookie", URLEncoder.encode(history));
+cookie.setMaxAge(24*60*60);
+response.addCookie(cookie);
+%>
 
 <html>
 <head>

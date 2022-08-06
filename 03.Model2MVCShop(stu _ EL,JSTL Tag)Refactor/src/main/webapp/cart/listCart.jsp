@@ -142,15 +142,15 @@ function cartTransaction(){
 				<tr>
 					<td colspan="11" bgcolor="808285" height="1"></td>
 				</tr>
-					<!-- list시작 -->
+					<!-- list시작 회원-->
 					<c:set var="size" value="${ fn:length(list) }"/>
-					<c:if test="${ count > 0 }">
+					<c:if test="${ count > 0 && user.userId != 'non-member' }">
 						<c:forEach var="i" begin="0" end="${ size-1 }" step="1">
 							<tr class="ct_list_pop" id="divDataId">
 								<td align="center">
 								<%-- <c:if test="${ list[i].prod_amount != 0 }"> --%>
 								<c:if test="${ count > 0 }">
-								<input type="checkbox" onclick="ischecked()" id="deleteCheckBox" name="deleteCheckBox" value="${ list[i].prod_no }"></td>
+								<input type="checkbox" onclick="ischecked()" id="deleteCheckBox" name="deleteCheckBox" value="<%-- ${ list[i].prod_no } --%>"></td>
 								</c:if>
 								<td></td>
 								<td align="left"><img height="250" width="250" src="/images/uploadFiles/${ list[i].image }"/></td>
@@ -178,6 +178,44 @@ function cartTransaction(){
 							</tr>
 						</c:forEach>
 					</c:if>
+					
+					
+					<c:set var="size" value="${ fn:length(list) }"/>
+					<c:if test="${ count > 0 && user.userId == 'non-member' }">
+						<c:forEach var="i" begin="0" end="${ size-1 }" step="1">
+							<tr class="ct_list_pop" id="divDataId">
+								<td align="center">
+								<%-- <c:if test="${ list[i].prod_amount != 0 }"> --%>
+								<c:if test="${ count > 0 }">
+								<input type="checkbox" onclick="ischecked()" id="deleteCheckBox" name="deleteCheckBox" value="${ list[i].prodNo }"></td>
+								</c:if>
+								<td></td>
+								<td align="left"><img height="250" width="250" src="/images/uploadFiles/${ list[i].fileName }"/></td>
+								<td></td>
+								<td align="left">${ list[i].prodName }</td>
+								<td></td>
+								<td align="left">
+									<input type="button" value="-" class="btn_minus" onclick='count("minus,${ i },${ size }")'>
+									<b id="result_${ i }">${ list[i].amount }</b>
+									<input type="text" id="amount_${ i }" name="amount" value="${ list[i].amount }">
+									<input type="text" id="prodAmount_${ i }" name="prodAmount" value="${ list[i].amount }">
+									<input type="text" id="addPurchaseCheckBox" name="addPurchaseCheckBox" value="${ list[i].prodNo }">
+									<input type="button" value="+" class="btn_plus" onclick='count("plus,${ i },${ size }")'>
+									<b id="limit_${ i }"></b>
+								</td>
+								<td></td>
+								<td align="left">
+								<b id="printPrice_${ i }">${ list[i].price }</b>원 * 
+								<b id="printAmount_${ i }">${ list[i].amount }</b>개 = 
+								<b id="printTotalPrice_${ i }">${ list[i].price * list[i].amount }</b>원
+								</td>
+							</tr>
+							<tr>
+								<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+							</tr>
+						</c:forEach>
+					</c:if>
+					
 			</table>
 
 

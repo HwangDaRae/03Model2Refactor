@@ -1,7 +1,10 @@
 package com.model2.mvc.view.cart;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -43,75 +46,70 @@ public class AddCartAction extends Action {
 		
 		System.out.println("AddCartAction cart : " + cart.toString());
 		
-		// 상품번호를 쿠키에 담는다
-		/*
-		request.setCharacterEncoding("euc-kr");
-		response.setCharacterEncoding("euc-kr");
-		
-		String history = null;
-		Cookie[] cookies = request.getCookies();
-		
-		if(cookies != null && cookies.length > 0) {
-			for (int i = 0; i < cookies.length; i++) {
-				Cookie cookie = cookies[i];
-				if(cookie.getName().equals("history")) {
-					history = cookie.getValue();
+		if(user == null || user.getUserId().equals("non-member")) {
+			//비회원 : 쿠키에 넣은 상품번호, 수량 가져온다
+			List<Product> proList = new ArrayList<Product>();
+			
+			Cookie[] cookies = request.getCookies();
+			
+			String[] prodNoCookieValueArray = null;
+			String prodNoCookieValue = "";
+			if(cookies != null && cookies.length > 0) {
+				for (int i = 0; i < cookies.length; i++) {
+					if(cookies[i].getName().equals("prodInfoCookie")) {
+						Cookie cookie = new Cookie("prodInfoCookie", URLEncoder.encode(URLDecoder.decode(cookies[i].getValue()) + ":" + request.getParameter("amount")) );
+						cookie.setMaxAge(24*60*60);
+						response.addCookie(cookie);
+						//상품번호에 맞는 상품정보를 가져온다
+						prodNoCookieValueArray = URLDecoder.decode(cookies[i].getValue()).split(",");
+						String[] prodNoArray = null;
+						Product p = null;
+						for (int j = 0; j < prodNoCookieValueArray.length; j++) {
+							prodNoArray = prodNoCookieValueArray[j].split(":");
+							p = p_service.getProduct(Integer.parseInt(prodNoArray[0]));
+							p.setAmount(Integer.parseInt(request.getParameter("amount")));
+							proList.add(p);
+						}
+					}
 				}
 			}
 			
-			System.out.println(history.toString());
-		}
-		*/
-		//user가 null이면 이동 null이 아니면 기존 로직 수행
-		//list가 null이면 새로 만든다
-		//쿠키에 상품번호를 담아 서비스로 가서 상품정보를 가져온다
-		//상품정보들을 list에 담아 들고다닌다
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		// 같은 상품이 있는지 비교하는 리스트
-		CartService service = new CartServiceImpl();
-		map = service.getCartList( user.getUserId() );
-		ArrayList<Cart> cartList = (ArrayList<Cart>)map.get("list");
-		
-		for (int i = 0; i < cartList.size(); i++) {
-			System.out.println(cartList.get(i).toString());
-		}
-		
-		//장바구니 전부를 가져와서 상품번호가 같다면 수량추가
-		boolean isProdNo = false;
-		ArrayList<Cart> p_list = (ArrayList<Cart>)map.get("list");
-		for (int i = 0; i < p_list.size(); i++) {
-			System.out.println(p_list.get(i).getProd_no());
-			System.out.println(Integer.parseInt(request.getParameter("prod_no")));
-			if(p_list.get(i).getProd_no() == Integer.parseInt(request.getParameter("prod_no"))){
-				isProdNo = true;
-				//수량 업데이트
-				cart.setAmount(p_list.get(i).getAmount() + Integer.parseInt(request.getParameter("amount")));
-				service.updateAmount(cart);
-				System.out.println(cart.toString());
+			for (int i = 0; i < proList.size(); i++) {
+				System.out.println("proList : " + proList.get(i).toString());
 			}
+			
+			request.setAttribute("list", proList);
+			request.setAttribute("count", proList.size());
+		}else {
+			// 회원 : 같은 상품이 있는지 비교하는 리스트
+			CartService service = new CartServiceImpl();
+			map = service.getCartList( user.getUserId() );
+			ArrayList<Cart> cartList = (ArrayList<Cart>)map.get("list");
+			
+			//장바구니 전부를 가져와서 상품번호가 같다면 수량추가
+			boolean isProdNo = false;
+			ArrayList<Cart> p_list = (ArrayList<Cart>)map.get("list");
+			for (int i = 0; i < p_list.size(); i++) {
+				if(p_list.get(i).getProd_no() == Integer.parseInt(request.getParameter("prod_no"))){
+					isProdNo = true;
+					//수량 업데이트
+					cart.setAmount(p_list.get(i).getAmount() + Integer.parseInt(request.getParameter("amount")));
+					service.updateAmount(cart);
+					System.out.println(cart.toString());
+				}
+			}
+			
+			System.out.println(!isProdNo);
+			if(!isProdNo) {
+				//상품번호가 다르다면 insert
+				service.insertCart(cart);
+			}
+			map = service.getCartList( user.getUserId() );
+			
+			request.setAttribute("list", map.get("list"));
+			request.setAttribute("count", map.get("count"));
 		}
 		
-		System.out.println(!isProdNo);
-		if(!isProdNo) {
-			//상품번호가 다르다면 insert
-			service.insertCart(cart);
-		}
-		map = service.getCartList( user.getUserId() );
-		
-		request.setAttribute("list", map.get("list"));
-		request.setAttribute("count", map.get("count"));
 
 		System.out.println("[AddCartAction execute() end...]");
 		return "forward:/cart/listCart.jsp";
